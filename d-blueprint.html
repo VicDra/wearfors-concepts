@@ -1,0 +1,1308 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<link href="https://fonts.googleapis.com/css2?family=Geologica:wght@300..700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<title>Wearfors · Чертёж в движении</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+:root{
+  color-scheme: dark;
+  --bg:#0B1033; --bg-2:#0E1540; --bg-3:#131B4E;
+  --ink:#EAF0FF; --ink-2:#B3C0E8; --ink-3:#8390C2;
+  --line:#C3D4FF; --line-2:rgba(195,212,255,.46); --line-3:rgba(195,212,255,.18);
+  --grid:rgba(150,180,255,.05); --grid-2:rgba(150,180,255,.10);
+  --rule:rgba(175,195,255,.16); --rule-2:rgba(175,195,255,.34);
+  --accent:#FDB813; --accent-line:#FDB813; --accent-ink:#FDB813; --on-accent:#0B1033;
+  --accent-fill:rgba(253,184,19,.17);
+  --fill:rgba(195,212,255,.04); --fill-2:rgba(195,212,255,.09);
+  --hatch:rgba(195,212,255,.5); --rock:rgba(195,212,255,.2); --dot:rgba(195,212,255,.75);
+  --head-bg:rgba(11,16,51,.84); --field:rgba(195,212,255,.04);
+  --logo-d:block; --logo-l:none;
+  --sans:"Geologica",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,"SFMono-Regular",Consolas,monospace;
+  --hh:64px; --ease:cubic-bezier(.16,1,.3,1);
+  --gut:max(16px,env(safe-area-inset-left,0px));
+}
+@media (prefers-color-scheme: light){
+  :root:not([data-theme="dark"]){
+    color-scheme: light;
+    --bg:#EEF1F6; --bg-2:#E5E9F1; --bg-3:#DCE2EC;
+    --ink:#0D0D50; --ink-2:#38427A; --ink-3:#56608E;
+    --line:#1A2670; --line-2:rgba(26,38,112,.46); --line-3:rgba(26,38,112,.16);
+    --grid:rgba(26,38,112,.045); --grid-2:rgba(26,38,112,.09);
+    --rule:rgba(13,13,80,.14); --rule-2:rgba(13,13,80,.32);
+    --accent-line:#E3A200; --accent-ink:#8A5A00; --accent-fill:rgba(253,184,19,.32);
+    --fill:rgba(26,38,112,.035); --fill-2:rgba(26,38,112,.07);
+    --hatch:rgba(26,38,112,.5); --rock:rgba(26,38,112,.12); --dot:rgba(26,38,112,.7);
+    --head-bg:rgba(238,241,246,.86); --field:rgba(13,13,80,.03);
+    --logo-d:none; --logo-l:block;
+  }
+}
+:root[data-theme="light"]{
+  color-scheme: light;
+  --bg:#EEF1F6; --bg-2:#E5E9F1; --bg-3:#DCE2EC;
+  --ink:#0D0D50; --ink-2:#38427A; --ink-3:#56608E;
+  --line:#1A2670; --line-2:rgba(26,38,112,.46); --line-3:rgba(26,38,112,.16);
+  --grid:rgba(26,38,112,.045); --grid-2:rgba(26,38,112,.09);
+  --rule:rgba(13,13,80,.14); --rule-2:rgba(13,13,80,.32);
+  --accent-line:#E3A200; --accent-ink:#8A5A00; --accent-fill:rgba(253,184,19,.32);
+  --fill:rgba(26,38,112,.035); --fill-2:rgba(26,38,112,.07);
+  --hatch:rgba(26,38,112,.5); --rock:rgba(26,38,112,.12); --dot:rgba(26,38,112,.7);
+  --head-bg:rgba(238,241,246,.86); --field:rgba(13,13,80,.03);
+  --logo-d:none; --logo-l:block;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.6 var(--sans);font-variation-settings:"SHRP" 0;overflow-x:clip;-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+a{color:inherit}
+h1,h2,h3,h4{margin:0;font-weight:560;letter-spacing:-.018em;text-wrap:balance;line-height:1.08}
+p{margin:0}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+::selection{background:var(--accent);color:var(--on-accent)}
+.mono{font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;line-height:1.5}
+.num{font-variant-numeric:tabular-nums}
+.wrap{max-width:1360px;margin:0 auto;padding-left:var(--gut);padding-right:max(16px,env(safe-area-inset-right,0px))}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.ph-body{background:url('img/body.webp') center/cover no-repeat}
+.ph-cover{background:url('img/cover.webp') center/cover no-repeat}
+
+/* ---------- header ---------- */
+.head{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:var(--head-bg);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--rule)}
+.head .wrap{height:var(--hh);display:flex;align-items:center;gap:24px}
+.logo{display:flex;align-items:center;flex:none}
+.logo img{height:34px;width:auto}
+.logo .l-d{display:var(--logo-d)} .logo .l-l{display:var(--logo-l)}
+.nav{display:flex;gap:22px;margin-left:auto}
+.nav a{text-decoration:none;font-size:14px;color:var(--ink-2);padding:6px 0;border-bottom:1px solid transparent;transition:color .2s,border-color .2s}
+.nav a:hover{color:var(--ink);border-color:var(--accent)}
+.btn{display:inline-flex;align-items:center;gap:10px;font:500 14px/1 var(--sans);text-decoration:none;cursor:pointer;border:1px solid var(--accent);background:var(--accent);color:var(--on-accent);padding:13px 18px;border-radius:2px;transition:transform .2s var(--ease),box-shadow .2s}
+.btn:hover{transform:translateY(-1px);box-shadow:0 6px 24px -10px var(--accent)}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--rule-2)}
+.btn.ghost:hover{border-color:var(--accent);box-shadow:none}
+.tgl{flex:none;width:36px;height:36px;border:1px solid var(--rule-2);background:transparent;color:var(--ink-2);border-radius:2px;cursor:pointer;display:grid;place-items:center}
+.tgl svg{width:16px;height:16px}
+@media (max-width:1080px){.nav{display:none}.head .btn{margin-left:auto}}
+@media (max-width:420px){.head .btn{padding:11px 12px;font-size:13px}.logo img{height:28px}}
+
+/* ---------- story ---------- */
+.story{position:relative;border-bottom:1px solid var(--rule)}
+.story-grid{display:grid;grid-template-columns:minmax(300px,5fr) 7fr;gap:clamp(24px,4vw,64px)}
+.hero{padding:clamp(40px,7vh,88px) 0 48px}
+.eyebrow{color:var(--ink-3);display:flex;gap:10px;align-items:center}
+.eyebrow::before{content:"";width:22px;height:1px;background:var(--accent)}
+.hero h1{font-size:clamp(38px,4.6vw,66px);margin:22px 0 22px;font-weight:580}
+.hero h1 em{font-style:normal;color:var(--accent-ink)}
+.lead{color:var(--ink-2);font-size:clamp(17px,1.3vw,19px);max-width:34em}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);margin:34px 0 30px;border-top:1px solid var(--rule-2)}
+.kpi{padding:14px 12px 0 0;border-right:1px solid var(--rule)}
+.kpi+.kpi{padding-left:14px}
+.kpi:last-child{border-right:0}
+.kpi b{display:block;font:560 clamp(30px,3vw,44px)/1 var(--sans);letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.kpi span{display:block;margin-top:8px;color:var(--ink-3)}
+.cta-row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.hint{margin-top:30px;color:var(--ink-3);display:flex;align-items:center;gap:10px}
+.hint i{display:block;width:1px;height:28px;background:linear-gradient(var(--accent),transparent)}
+
+.steps{position:relative}
+.step{min-height:82vh;padding:12vh 0 6vh;border-top:1px solid var(--rule);position:relative}
+.step:last-child{min-height:100vh}
+.step-no{color:var(--ink-3);display:flex;gap:14px;align-items:baseline}
+.step-no b{font-weight:500;color:var(--ink-2)}
+.step h3{font-size:clamp(26px,2.3vw,36px);margin:16px 0 16px;transition:color .4s}
+.step p.tx{color:var(--ink-2);max-width:32em}
+.step .meta{margin-top:20px;color:var(--ink-3);border-left:1px solid var(--accent);padding-left:12px}
+.step.is-active .step-no b{color:var(--accent-ink)}
+.step-res{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:22px;border-top:1px solid var(--rule-2)}
+.step-res div{padding:12px 10px 0 0}
+.step-res b{display:block;font:560 30px/1 var(--sans);font-variant-numeric:tabular-nums}
+.step-res span{color:var(--ink-3)}
+.fig{display:none;margin-top:24px;aspect-ratio:1000/860;border:1px solid var(--rule);position:relative;
+  background-color:var(--bg-2);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:16px 16px}
+.fig svg{position:absolute;inset:0;width:100%;height:100%}
+.natura-m{display:none;margin-top:14px;aspect-ratio:1300/1105;border:1px solid var(--rule)}
+
+.stage-col{position:relative}
+.stage{position:relative;height:calc(100vh - var(--hh) - 24px);height:calc(100svh - var(--hh) - 24px);min-height:480px;max-height:900px;margin-top:12px;border:1px solid var(--rule);overflow:hidden;
+  background-color:var(--bg-2);
+  background-image:linear-gradient(var(--grid-2) 1px,transparent 1px),linear-gradient(90deg,var(--grid-2) 1px,transparent 1px),linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:96px 96px,96px 96px,16px 16px,16px 16px;background-position:-1px -1px}
+.stage>svg{position:absolute;left:12px;right:12px;top:44px;bottom:52px;width:calc(100% - 24px);height:calc(100% - 96px)}
+.st-top{position:absolute;left:0;right:0;top:0;height:36px;display:flex;justify-content:space-between;align-items:center;padding:0 14px;border-bottom:1px solid var(--rule);color:var(--ink-3);z-index:3}
+.st-top b{color:var(--ink);font-weight:500}
+.st-top .sheet b{color:var(--accent-ink)}
+.st-bot{position:absolute;left:0;right:0;bottom:0;height:44px;display:flex;align-items:stretch;border-top:1px solid var(--rule);z-index:3;background:var(--bg-2)}
+.ticks{display:flex;flex:1;min-width:0}
+.ticks button{flex:1;min-width:0;border:0;border-right:1px solid var(--rule);background:transparent;color:var(--ink-3);font:500 10.5px/1.2 var(--mono);letter-spacing:.06em;text-transform:uppercase;cursor:pointer;position:relative;padding:0 6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ticks button::after{content:"";position:absolute;left:0;bottom:-1px;height:2px;width:100%;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .4s var(--ease)}
+.ticks button.on{color:var(--ink)}
+.ticks button.on::after{transform:scaleX(1)}
+.stamp{display:grid;grid-template-columns:auto auto;border-left:1px solid var(--rule);flex:none}
+.stamp span{padding:4px 10px;color:var(--ink-3);border-left:1px solid var(--rule);display:flex;align-items:center;font-size:10px}
+.stamp span:first-child{border-left:0;color:var(--ink);font-weight:500}
+.stage-photo{position:absolute;inset:36px 0 44px;z-index:2;clip-path:inset(0 100% 0 0)}
+.stage-photo figcaption{position:absolute;left:14px;bottom:12px;background:var(--bg);color:var(--ink);padding:6px 10px}
+.wipe{position:absolute;top:36px;bottom:44px;left:0;width:2px;background:var(--accent);z-index:3;opacity:0;box-shadow:0 0 18px var(--accent)}
+.corner{position:absolute;width:14px;height:14px;border-color:var(--line-2);border-style:solid;z-index:1;pointer-events:none}
+.c1{left:6px;top:42px;border-width:1px 0 0 1px}.c2{right:6px;top:42px;border-width:1px 1px 0 0}
+.c3{left:6px;bottom:50px;border-width:0 0 1px 1px}.c4{right:6px;bottom:50px;border-width:0 1px 1px 0}
+
+@media (max-width:1180px){.st-top>span:last-child,.stamp span:last-child,.ticks .tn{display:none}}
+/* drawing classes (SVG) */
+.ln{fill:none;stroke:var(--line);stroke-width:1.3;stroke-linejoin:round}
+.ln2{fill:none;stroke:var(--line-2);stroke-width:1}
+.ln3{fill:none;stroke:var(--line-3);stroke-width:1}
+.ph{fill:none;stroke:var(--line-2);stroke-width:1;stroke-dasharray:9 4 2 4}
+.cs{fill:none;stroke:var(--line-2);stroke-width:.8}
+.ac{fill:none;stroke:var(--accent-line);stroke-width:1.6}
+.acf{fill:var(--accent-line);stroke:none}
+.lf{fill:var(--line);stroke:none}
+.sf{fill:var(--fill);stroke:none}
+.pl{fill:var(--fill-2);stroke:var(--line);stroke-width:1}
+.pl.near{stroke:var(--line-2)}
+.pl.hl{fill:var(--accent-fill);stroke:var(--accent-line);stroke-width:1.6}
+.seam{fill:none;stroke:var(--line);stroke-width:.9}
+.seam.hl{stroke:var(--accent-line);stroke-width:1.6}
+.pf-h{fill:var(--bg-2);stroke:var(--line-2);stroke-width:.35}
+.hatch-ln{stroke:var(--hatch);stroke-width:.8}
+.st-dot{fill:var(--dot)}
+.rock{fill:url(#none);stroke:var(--line);stroke-width:1}
+.t{font-family:var(--mono);font-size:14.5px;letter-spacing:.06em;fill:var(--ink-2);text-transform:uppercase}
+.t.s{font-size:12.5px}
+.t.a{fill:var(--accent-ink)}
+.tb{font-family:var(--sans);font-weight:560;font-size:72px;fill:var(--ink);letter-spacing:-.02em}
+.tb.a{fill:var(--accent-ink)}
+.pn{font-family:var(--mono);font-size:12px;fill:var(--ink-2);text-anchor:middle;dominant-baseline:central}
+.pn.hl{fill:var(--accent-ink);font-weight:500}
+.det-plate{fill:var(--bg-3)}
+.det-o{fill:none;stroke:var(--line);stroke-width:1.2;vector-effect:non-scaling-stroke}
+.det-h{fill:none;stroke:var(--line);stroke-width:1;vector-effect:non-scaling-stroke}
+.fig .t{font-size:22px}.fig .t.s{font-size:19px}.fig .pn{font-size:17px}
+.fig .ln{stroke-width:2.2}.fig .ln2,.fig .ph,.fig .pl,.fig .seam{stroke-width:1.6}.fig .ac{stroke-width:2.6}
+
+/* ---------- sections ---------- */
+.sec{padding:clamp(72px,10vw,128px) 0;border-bottom:1px solid var(--rule);scroll-margin-top:var(--hh)}
+.sec-h{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(24px,4vw,64px);align-items:end;margin-bottom:clamp(36px,5vw,64px)}
+.sec-h h2{font-size:clamp(30px,3.4vw,50px)}
+.sec-h p{color:var(--ink-2);max-width:38em}
+.kicker{color:var(--ink-3);margin-bottom:16px;display:flex;gap:12px}
+.kicker b{color:var(--accent-ink);font-weight:500}
+.card{border:1px solid var(--rule);background:var(--bg-2);position:relative}
+.grid-bg{background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:16px 16px}
+
+/* natura */
+.natura{position:relative;aspect-ratio:1600/700;min-height:240px;border:1px solid var(--rule);margin-top:clamp(56px,7vw,96px)}
+.natura::after{content:"";position:absolute;inset:14px;border:1px solid rgba(255,255,255,.35);pointer-events:none}
+.natura figcaption{position:absolute;left:28px;bottom:26px;color:#fff;background:rgba(11,16,51,.7);padding:6px 10px}
+.natura .dimx{position:absolute;left:28px;right:28px;top:30px;height:1px;background:rgba(255,255,255,.6)}
+.natura .dimx::before,.natura .dimx::after{content:"";position:absolute;top:-5px;height:11px;width:1px;background:#fff}
+.natura .dimx::before{left:0}.natura .dimx::after{right:0}
+.natura .dimx span{position:absolute;left:50%;top:-22px;transform:translateX(-50%);color:#fff;white-space:nowrap}
+
+/* cell */
+.cell-wrap{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:clamp(24px,4vw,56px);align-items:center}
+.cell{padding:12px}
+.cell svg{width:100%;height:auto;display:block}
+.cell .ly{transition:transform .9s var(--ease)}
+.cell .ly-rock{transform:translateY(-84px)}
+.cell .ly-base{transform:translateY(64px)}
+.cell.asm .ly-rock,.cell.asm .ly-base{transform:none}
+.cell .ldr{transition:opacity .4s}
+.cell.asm .ldr{opacity:.25}
+.cell-btn{position:absolute;right:12px;top:12px}
+.layers{list-style:none;margin:0;padding:0;border-top:1px solid var(--rule-2)}
+.layers li{padding:18px 0;border-bottom:1px solid var(--rule);display:grid;grid-template-columns:110px 1fr;gap:16px}
+.layers li span{color:var(--ink-3)}
+.layers li p{color:var(--ink-2)}
+.layers li b{color:var(--ink);font-weight:500;display:block;margin-bottom:4px}
+
+/* calc */
+.calc-grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(24px,3vw,40px)}
+.calc-in{padding:clamp(18px,2.4vw,30px);display:grid;gap:22px;align-content:start}
+.fld{display:grid;gap:8px}
+.fld label,.fld legend{color:var(--ink-3)}
+.fld small{color:var(--ink-3);font-size:12px}
+fieldset{border:0;margin:0;padding:0;min-width:0}
+.seg{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--rule-2)}
+.seg input{position:absolute;opacity:0;pointer-events:none}
+.seg label{padding:12px 8px;text-align:center;cursor:pointer;border-right:1px solid var(--rule);color:var(--ink-2);font-size:15px;transition:background .2s,color .2s;font-variant-numeric:tabular-nums}
+.seg label:last-of-type{border-right:0}
+.seg label small{display:block;color:var(--ink-3);font-family:var(--mono);font-size:11px;margin-top:2px}
+.seg input:checked+label{background:var(--accent);color:var(--on-accent)}
+.seg input:checked+label small{color:var(--on-accent)}
+.seg input:focus-visible+label{outline:2px solid var(--accent);outline-offset:-4px}
+input[type=number],input[type=text],input[type=email],input[type=tel]{width:100%;background:var(--field);border:1px solid var(--rule-2);color:var(--ink);font:400 16px/1.2 var(--sans);padding:12px 12px;border-radius:2px;font-variant-numeric:tabular-nums}
+input:focus-visible{outline:2px solid var(--accent);outline-offset:0;border-color:transparent}
+input[type=range]{width:100%;accent-color:var(--accent);height:28px}
+.rng{display:flex;gap:14px;align-items:center}
+.rng output{min-width:64px;text-align:right;font:500 16px var(--mono)}
+.calc-out{padding:clamp(18px,2.4vw,30px);display:grid;gap:22px}
+.outs{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--rule-2)}
+.outs div{padding:16px 14px 16px 0;border-bottom:1px solid var(--rule)}
+.outs div:nth-child(odd){border-right:1px solid var(--rule)}
+.outs div:nth-child(even){padding-left:16px}
+.outs dt{color:var(--ink-3)}
+.outs dd{margin:8px 0 0;font:560 clamp(26px,2.6vw,38px)/1 var(--sans);font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.outs dd small{font:400 13px var(--mono);color:var(--ink-3);margin-left:6px;letter-spacing:0}
+.outs .hi dd{color:var(--accent-ink)}
+.fleet{border:1px solid var(--rule);padding:14px}
+.fleet svg{width:100%;height:auto;display:block}
+.fleet .fcap{display:flex;justify-content:space-between;gap:12px;color:var(--ink-3);margin-bottom:10px;flex-wrap:wrap}
+.note{color:var(--ink-2);border-left:2px solid var(--accent);padding-left:12px;font-size:15px}
+.ctx{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:24px;border-top:1px solid var(--rule)}
+.ctx p{padding:14px 16px 0 0;color:var(--ink-3);font-size:14px}
+.ctx b{display:block;color:var(--ink);font:560 24px/1.1 var(--sans);margin-bottom:6px;font-variant-numeric:tabular-nums}
+
+/* proof */
+.clients{display:grid;grid-template-columns:repeat(5,1fr);border-top:1px solid var(--rule-2);border-left:1px solid var(--rule)}
+.clients div{padding:18px 16px;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.clients b{display:block;font-weight:520;font-size:17px;line-height:1.25}
+.clients span{display:block;margin-top:6px;color:var(--ink-3);font-size:13px}
+.clients-note{margin-top:16px;color:var(--ink-2);max-width:56em}
+.proof-grid{display:grid;align-items:start;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:clamp(24px,3vw,40px);margin-top:clamp(40px,5vw,64px)}
+.chart{padding:clamp(16px,2vw,26px)}
+.chart svg{width:100%;height:auto;display:block;overflow:visible}
+.chart .cap{display:flex;justify-content:space-between;gap:12px;color:var(--ink-3);margin-bottom:12px;flex-wrap:wrap}
+.res{display:grid;gap:0;align-content:start;border-top:1px solid var(--rule-2)}
+.res article{padding:18px 0;border-bottom:1px solid var(--rule);display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 16px;align-items:baseline}
+.res h4{font-size:17px;font-weight:520;letter-spacing:0}
+.res .v{font:560 24px/1 var(--sans);font-variant-numeric:tabular-nums;white-space:nowrap}
+.res p{grid-column:1/-1;color:var(--ink-3);font-size:14px}
+.thumbs{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+.thumbs figure{margin:0;border:1px solid var(--rule)}
+.thumbs img{width:100%;aspect-ratio:4/3;object-fit:cover;filter:grayscale(.3)}
+.thumbs figcaption{padding:8px 10px;color:var(--ink-3)}
+
+/* compat */
+.brands{display:flex;flex-wrap:wrap;border-top:1px solid var(--rule-2);border-bottom:1px solid var(--rule-2)}
+.brands span{flex:1 1 180px;padding:28px 16px;font:560 clamp(28px,3.6vw,52px)/1 var(--sans);letter-spacing:-.02em;border-right:1px solid var(--rule);text-align:center}
+.brands span:last-child{border-right:0}
+.brands-n{display:flex;justify-content:space-between;gap:16px;color:var(--ink-3);margin-top:14px;flex-wrap:wrap}
+
+/* process */
+.proc{display:grid;grid-template-columns:repeat(4,1fr);position:relative;border-top:1px solid var(--rule-2)}
+.proc li{list-style:none;padding:22px 18px 0 0;position:relative}
+.proc li::before{content:"";position:absolute;top:-5px;left:0;width:9px;height:9px;border:1px solid var(--line);background:var(--bg);transform:rotate(45deg)}
+.proc li:last-child::before{background:var(--accent);border-color:var(--accent)}
+.proc .no{color:var(--accent-ink)}
+.proc h3{font-size:21px;margin:10px 0 8px}
+.proc p{color:var(--ink-2);font-size:15px}
+.proc-ol{margin:0;padding:0;display:contents}
+.bracket{margin-top:34px;display:grid;grid-template-columns:3fr 1fr;align-items:center}
+.bracket .bar{grid-column:2;border:1px solid var(--accent);border-top:0;height:14px;position:relative}
+.bracket .lbl{grid-column:2;text-align:center;margin-top:10px}
+.bracket .lbl b{display:block;font:560 26px/1.1 var(--sans);color:var(--ink)}
+.bracket .lbl span{color:var(--ink-3)}
+
+/* models */
+.models{display:grid;grid-template-columns:1fr 1fr;gap:clamp(16px,2vw,24px)}
+.model{padding:clamp(20px,2.6vw,34px)}
+.model h3{font-size:clamp(24px,2.2vw,32px);margin:10px 0 12px}
+.model p{color:var(--ink-2)}
+.model ul{margin:18px 0 0;padding:0;list-style:none;border-top:1px solid var(--rule)}
+.model li{padding:10px 0;border-bottom:1px solid var(--rule);color:var(--ink-2);font-size:15px}
+.model svg{width:100%;height:auto;display:block;margin-top:20px}
+.model .tag{color:var(--ink-3)}
+.model.svc .tag{color:var(--accent-ink)}
+
+/* forum */
+.forum{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,8fr);gap:clamp(24px,4vw,56px);align-items:stretch}
+.forum figure{margin:0;border:1px solid var(--rule)}
+.forum img{width:100%;height:100%;object-fit:cover;max-height:560px}
+.f-date{font:560 clamp(44px,6vw,92px)/.95 var(--sans);letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.f-date span{color:var(--accent-ink)}
+.f-meta{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--rule-2);margin:28px 0}
+.f-meta div{padding:14px 14px 0 0}
+.f-meta dt{color:var(--ink-3)}
+.f-meta dd{margin:6px 0 0;color:var(--ink)}
+
+/* form */
+.req{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(24px,4vw,64px)}
+.form{padding:clamp(20px,2.6vw,34px);display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.form .fld.w{grid-column:1/-1}
+.form .consent{grid-column:1/-1;color:var(--ink-3);font-size:13px}
+.form .done{grid-column:1/-1;border:1px solid var(--accent);padding:14px;display:none}
+.form.sent .done{display:block}
+.contacts{margin-top:28px;display:grid;gap:12px}
+.contacts a{font-size:20px;text-decoration:none;border-bottom:1px solid var(--rule-2);width:max-content;max-width:100%}
+.contacts a:hover{border-color:var(--accent)}
+
+/* footer */
+.foot{padding:48px 0 calc(40px + env(safe-area-inset-bottom,0px));color:var(--ink-3);font-size:14px}
+.foot .wrap{display:grid;grid-template-columns:auto 1fr 1fr 1fr;gap:32px;align-items:start}
+.foot img{height:32px;width:auto}
+.foot p{user-select:text}
+.foot b{color:var(--ink);font-weight:500}
+
+/* ---------- responsive + static modes ---------- */
+@media (max-width:1080px){
+  .sec-h,.cell-wrap,.calc-grid,.proof-grid,.req{grid-template-columns:1fr}
+  .clients{grid-template-columns:repeat(2,1fr)}
+  .foot .wrap{grid-template-columns:1fr 1fr}
+}
+html[data-mode="static"] .stage-col{display:none}
+html[data-mode="static"] .fig{display:block}
+html[data-mode="static"] .natura-m{display:block}
+html[data-mode="static"] .step{min-height:0;padding:56px 0}
+html[data-mode="static"] .step:last-child{min-height:0}
+@media (min-width:760px){
+  html[data-mode="static"] .story-grid{grid-template-columns:1fr}
+  html[data-mode="static"] .hero{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:48px;align-items:center}
+  html[data-mode="static"] .hero .fig{grid-row:1/span 6;grid-column:2}
+  html[data-mode="static"] .step{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);column-gap:48px;align-content:start}
+  html[data-mode="static"] .step>*{grid-column:1}
+  html[data-mode="static"] .step>.fig,html[data-mode="static"] .step>.natura-m{grid-column:2;grid-row:1/span 8;margin-top:0;align-self:start}
+  html[data-mode="static"] .step>.natura-m{grid-row:9}
+}
+@media (max-width:759px){
+  .story-grid{grid-template-columns:1fr}
+  .stage-col{display:none}
+  .fig,.natura-m{display:block}
+  .step{min-height:0;padding:48px 0}
+  .step:last-child{min-height:0}
+  .kpis{margin:26px 0 24px}
+  .clients{grid-template-columns:1fr}
+  .outs{grid-template-columns:1fr}
+  .outs div:nth-child(odd){border-right:0}
+  .outs div:nth-child(even){padding-left:0}
+  .ctx,.f-meta{grid-template-columns:1fr}
+  .proc{grid-template-columns:1fr;border-top:0;border-left:1px solid var(--rule-2);padding-left:18px}
+  .proc li{padding:0 0 26px}
+  .proc li::before{left:-23px;top:4px}
+  .bracket{grid-template-columns:1fr}
+  .bracket .bar,.bracket .lbl{grid-column:1}
+  .models,.forum,.form{grid-template-columns:1fr}
+  .forum img{max-height:360px}
+  .layers li{grid-template-columns:1fr;gap:4px}
+  .foot .wrap{grid-template-columns:1fr}
+  .natura{aspect-ratio:4/3}
+  .step-res b{font-size:24px}
+}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{transition:none!important;animation:none!important}
+}
+</style>
+<header class="head">
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="Wearfors — в начало">
+      <img class="l-d" src="img/logo_white.webp" alt="Wearfors" width="600" height="460">
+      <img class="l-l" src="img/logo.webp" alt="Wearfors" width="600" height="460">
+    </a>
+    <nav class="nav" aria-label="Разделы">
+      <a href="#solution">Решение</a><a href="#calc">Экономика</a><a href="#proof">Результаты</a><a href="#process">Монтаж</a><a href="#forum">Форум</a><a href="#contact">Контакты</a>
+    </nav>
+    <a class="btn" href="#calc">Расчёт для парка</a>
+    <button class="tgl" type="button" id="themeBtn" aria-label="Переключить светлую и тёмную тему"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="8" cy="8" r="6"/><path d="M8 2v12" /><path d="M8 2a6 6 0 0 1 0 12z" fill="currentColor"/></svg></button>
+  </div>
+</header>
+
+<main id="top">
+<section class="story" id="solution" aria-label="Как устроена футеровка Wearfors">
+  <div class="wrap story-grid">
+    <div class="story-text">
+      <div class="hero">
+        <p class="eyebrow mono">Перфорированная футеровка кузова карьерного самосвала</p>
+        <h1 id="heroTitle">Лёгкая футеровка — <em>больше груза</em> за&nbsp;каждый рейс</h1>
+        <p class="lead">Стальные пластины 10–16 мм с шахматной овальной перфорацией. Порода забивается в ячейки и сама принимает износ, а освободившаяся масса кузова уходит в груз.</p>
+        <div class="kpis num" role="list">
+          <div class="kpi" role="listitem"><b>+4 т</b><span class="mono">за рейс · 90 т</span></div>
+          <div class="kpi" role="listitem"><b>+7 т</b><span class="mono">за рейс · 130 т</span></div>
+          <div class="kpi" role="listitem"><b>+9 т</b><span class="mono">за рейс · 220 т</span></div>
+        </div>
+        <div class="cta-row">
+          <a class="btn" href="#calc">Расчёт для парка</a>
+          <a class="btn ghost" href="#contact">Заявка на замер</a>
+        </div>
+        <p class="hint mono"><i></i>Листайте — чертёж соберётся по шагам</p>
+        <div class="fig" data-to="0" data-from="0" aria-hidden="true"></div>
+      </div>
+
+      <div class="steps" id="steps">
+        <article class="step" data-i="0">
+          <p class="step-no mono"><b>Лист 01</b> из 06</p>
+          <h3>Кузов самосвала</h3>
+          <p class="tx">Исходная точка — штатный кузов карьерного самосвала: днище, борта, передний борт с козырьком, хвостовая часть. Футеровка работает с машинами разных марок и классов.</p>
+          <p class="meta mono">Класс 90 / 130 / 220 т</p>
+          <div class="fig" data-to="1" data-from="0" aria-hidden="true"></div>
+        </article>
+        <article class="step" data-i="1">
+          <p class="step-no mono"><b>Лист 02</b> из 06</p>
+          <h3>Замер</h3>
+          <p class="tx">Снимаем размеры кузова и оцениваем состояние днища и бортов. По замеру строится карта кузова — основа раскроя.</p>
+          <p class="meta mono">Шаг 1 процесса · замер кузова</p>
+          <div class="fig" data-to="2" data-from="1" aria-hidden="true"></div>
+        </article>
+        <article class="step" data-i="2">
+          <p class="step-no mono"><b>Лист 03</b> из 06</p>
+          <h3>Раскрой</h3>
+          <p class="tx">Поверхности кузова разворачиваются в плоскую карту и делятся на пластины. Комплект поставляется в раскрое под конкретный кузов: у каждой пластины своё место.</p>
+          <p class="meta mono">Шаг 2–3 · раскрой и поставка комплекта</p>
+          <div class="fig" data-to="3" data-from="2" aria-hidden="true"></div>
+        </article>
+        <article class="step" data-i="3">
+          <p class="step-no mono"><b>Лист 04</b> из 06</p>
+          <h3>Перфорация</h3>
+          <p class="tx">Пластина 10–16 мм с овальными отверстиями в шахматном порядке. Часть металла удалена — пластина легче сплошного листа той же толщины. По кромкам — полуовальные вырезы.</p>
+          <p class="meta mono">Толщина 10–16 мм · пластина легче сплошной</p>
+          <div class="fig" data-to="4" data-from="3" aria-hidden="true"></div>
+        </article>
+        <article class="step" data-i="4">
+          <p class="step-no mono"><b>Лист 05</b> из 06</p>
+          <h3>Монтаж</h3>
+          <p class="tx">Пластины встают на свои места в кузове. Монтаж занимает 3–5 дней в полевых условиях — без крана и ангара, в том числе на строящемся ГОКе. Попутно выполняем небольшой ремонт кузова.</p>
+          <p class="meta mono">3–5 дней · без крана · в поле</p>
+          <div class="fig" data-to="5" data-from="4" aria-hidden="true"></div>
+        </article>
+        <article class="step" data-i="5">
+          <p class="step-no mono"><b>Лист 06</b> из 06</p>
+          <h3>Самофутеровка</h3>
+          <p class="tx">Порода забивается в овальные ячейки и остаётся в них. Дальше износ принимает на себя порода, а не сталь — это подтверждено эксплуатацией пластин 10–16 мм. Кузов легче — в него помещается больше груза.</p>
+          <div class="step-res num">
+            <div><b>+4 т</b><span class="mono">90 т</span></div>
+            <div><b>+7 т</b><span class="mono">130 т</span></div>
+            <div><b>+9 т</b><span class="mono">220 т</span></div>
+          </div>
+          <p class="meta mono">−3–5 % топлива на тонну горной массы при увеличенной загрузке; при той же загрузке — от 3 % на рейс</p>
+          <div class="fig" data-to="5.8" data-from="5" aria-hidden="true"></div>
+          <div class="natura-m ph-body" role="img" aria-label="Кузов CAT 777 с установленной футеровкой Wearfors"></div>
+        </article>
+      </div>
+    </div>
+
+    <div class="stage-col">
+      <div class="stage" id="stage">
+        <div class="st-top mono"><span class="sheet">Лист <b id="stSheet">01</b> / 06 · <b id="stName" style="color:var(--ink)">Кузов самосвала</b></span><span>Схема · без масштаба</span></div>
+        <i class="corner c1"></i><i class="corner c2"></i><i class="corner c3"></i><i class="corner c4"></i>
+        <svg id="stageSvg" role="img" aria-label="Анимированная схема: кузов самосвала, замер, раскрой, перфорация пластины, монтаж и самофутеровка"></svg>
+        <figure class="stage-photo ph-body" style="margin:0" aria-hidden="true"><figcaption class="mono">Натура · CAT 777 с футеровкой Wearfors</figcaption></figure>
+        <i class="wipe" aria-hidden="true"></i>
+        <div class="st-bot">
+          <div class="ticks" id="ticks">
+            <button type="button" data-i="0">01<span class="tn"> Кузов</span></button><button type="button" data-i="1">02<span class="tn"> Замер</span></button><button type="button" data-i="2">03<span class="tn"> Раскрой</span></button><button type="button" data-i="3">04<span class="tn"> Перфорация</span></button><button type="button" data-i="4">05<span class="tn"> Монтаж</span></button><button type="button" data-i="5">06<span class="tn"> Порода</span></button>
+          </div>
+          <div class="stamp mono"><span>Wearfors</span><span>Пат. РФ № 2835696</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+  <figure class="natura ph-cover" role="img" aria-label="Карьерные самосвалы CAT на снегу, закатное небо" style="margin-bottom:0">
+    <div class="dimx mono"><span>Натура</span></div>
+    <figcaption class="mono">Карьерные самосвалы CAT · условия эксплуатации</figcaption>
+  </figure>
+</div>
+
+<section class="sec" id="cell">
+  <div class="wrap">
+    <div class="sec-h">
+      <div><p class="kicker mono"><b>Узел А</b> Ячейка в разрезе</p><h2>Сталь держит породу. Порода принимает износ</h2></div>
+      <p>Три слоя одной ячейки. Наведите курсор на схему или нажмите «Собрать», чтобы увидеть узел в сборе.</p>
+    </div>
+    <div class="cell-wrap">
+      <div class="card grid-bg cell" id="cell">
+        <button class="btn ghost cell-btn" type="button" id="cellBtn" aria-pressed="false">Собрать</button>
+        <svg id="cellSvg" viewBox="0 0 660 500" role="img" aria-label="Разнесённая аксонометрия: порода, перфорированная пластина, днище кузова"></svg>
+      </div>
+      <ul class="layers">
+        <li><span class="mono">Слой 1</span><p><b>Порода в ячейках</b>Заполняет овальные отверстия и остаётся в них. Трение груза при погрузке и разгрузке приходится на породу.</p></li>
+        <li><span class="mono">Слой 2</span><p><b>Пластина Wearfors 10–16 мм</b>Сталь с овальной перфорацией в шахматном порядке. Удерживает породу и защищает кузов; легче сплошного листа.</p></li>
+        <li><span class="mono">Слой 3</span><p><b>Днище кузова</b>Штатная конструкция самосвала. При замене футеровки выполняем небольшой ремонт кузова.</p></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="calc">
+  <div class="wrap">
+    <div class="sec-h">
+      <div><p class="kicker mono"><b>Расчёт</b> Экономика парка</p><h2>Сколько даст футеровка вашему парку</h2></div>
+      <p>Подставьте свои данные. Формулы открыты: прирост груза за рейс по классу самосвала, экономия топлива 3–5 % на тонну горной массы.</p>
+    </div>
+    <div class="calc-grid">
+      <form class="card calc-in" id="calcForm" onsubmit="return false" aria-label="Параметры парка">
+        <fieldset class="fld"><legend class="mono">Класс самосвала</legend>
+          <div class="seg">
+            <input type="radio" name="cls" id="c90" value="90"><label for="c90">90 т<small>+4 т/рейс</small></label>
+            <input type="radio" name="cls" id="c130" value="130" checked><label for="c130">130 т<small>+7 т/рейс</small></label>
+            <input type="radio" name="cls" id="c220" value="220"><label for="c220">220 т<small>+9 т/рейс</small></label>
+          </div>
+        </fieldset>
+        <div class="fld"><label class="mono" for="cN">Самосвалов в парке</label><input type="number" id="cN" min="1" max="999" step="1" value="20" inputmode="numeric"></div>
+        <div class="fld"><label class="mono" for="cT">Рейсов в год на машину</label><input type="number" id="cT" min="1" max="20000" step="10" value="3000" inputmode="numeric"><small>Пример — замените своими данными</small></div>
+        <div class="fld"><label class="mono" for="cF">Расход топлива на машину, л/год</label><input type="number" id="cF" min="1" step="1000" value="500000" inputmode="numeric"><small>Пример, замените своими: 90 т — 350 000, 130 т — 500 000, 220 т — 850 000</small></div>
+        <div class="fld"><label class="mono" for="cS">Экономия топлива на тонну</label><div class="rng"><input type="range" id="cS" min="3" max="5" step="0.1" value="4"><output id="cSo" for="cS" class="num">4,0 %</output></div></div>
+      </form>
+      <div class="card calc-out" aria-live="polite">
+        <dl class="outs">
+          <div class="hi"><dt class="mono">Доп. груз за год на парк</dt><dd><span id="oT">420 000</span><small>т</small></dd></div>
+          <div class="hi"><dt class="mono">Эквивалент машин</dt><dd><span id="oE">1,08</span><small>самосвала</small></dd></div>
+          <div><dt class="mono">Экономия топлива</dt><dd><span id="oF">400 000</span><small>л/год</small></dd></div>
+          <div><dt class="mono">Меньше CO₂</dt><dd><span id="oC">1 072</span><small>т/год</small></dd></div>
+        </dl>
+        <div class="fleet">
+          <div class="fcap mono"><span id="fleetCap">Парк: 20 машин</span><span style="color:var(--accent-ink)" id="fleetEq">+ 1,08 машины без покупки</span></div>
+          <svg id="fleetSvg" viewBox="0 0 600 120" role="img" aria-label="Схема парка: прирост груза в пересчёте на дополнительные самосвалы"></svg>
+        </div>
+        <p class="note">Предварительная оценка. Точный расчёт — по замеру кузова.</p>
+        <p class="mono" style="color:var(--ink-3)">Доп. груз = машины × рейсы × прирост · Эквивалент = машины × прирост / грузоподъёмность · Топливо = машины × расход × доля · CO₂ = литры × 2,68 / 1000</p>
+      </div>
+    </div>
+    <div class="ctx">
+      <p><b>до 40–45 %</b>себестоимости добычи — транспортировка горной массы</p>
+      <p><b>22–30 %</b>операционных затрат самосвала — топливо</p>
+      <p><b>50–80 %</b>прямых выбросов рудника (Scope 1) — дизель самосвалов</p>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="proof">
+  <div class="wrap">
+    <div class="sec-h">
+      <div><p class="kicker mono"><b>Результаты</b> Эксплуатация</p><h2>Самосвалы, которые уже ездят на Wearfors</h2></div>
+      <p>Ещё около 10 горнодобывающих компаний провели опытно-промышленные испытания. Часть заказчиков включает футеровку Wearfors в техническое задание на закупку новых самосвалов.</p>
+    </div>
+    <div class="clients">
+      <div><b>ЕВРАЗ КГОК</b><span>Качканарский ГОК</span></div>
+      <div><b>«Норильский никель»</b><span>&nbsp;</span></div>
+      <div><b>ГРК «Быстринское»</b><span>Забайкальский край</span></div>
+      <div><b>«Святогор»</b><span>УГМК, Свердловская обл.</span></div>
+      <div><b>Группа АРЕАЛ</b><span>Озёрный ГОК, «Базовые металлы», Культуминский ГОК — весь парк</span></div>
+    </div>
+    <div class="proof-grid">
+      <div class="card grid-bg chart">
+        <div class="cap mono"><span>Износ футеровки, Komatsu HD785-7</span><span>Мониторинг 6 месяцев</span></div>
+        <svg id="chartSvg" viewBox="0 0 640 360" role="img" aria-label="График: скорость износа 0,35 мм на 1000 моточасов (СЗФК) и 0,5 мм на 1000 моточасов в хвостовой части (Нордголд)"></svg>
+        <p class="mono" style="color:var(--ink-3);margin-top:10px">Измеренная скорость износа за 6 месяцев мониторинга, показана линейно</p>
+      </div>
+      <div>
+        <div class="res">
+          <article><h4>АО «Качары Руда» (ERG), Казахстан</h4><span class="v">−4…9 т</span><p>БелАЗ 75131, Hitachi EH3500, CAT 777 — полная масса самосвалов снизилась на 4–9 т</p></article>
+          <article><h4>ПАО «СЗФК», Группа «Акрон»</h4><span class="v">0,35 мм</span><p>Komatsu HD785-7 — износ на 1000 моточасов за 6 месяцев мониторинга</p></article>
+          <article><h4>«Нордголд», рудник «Гросс»</h4><span class="v">0,5 мм</span><p>Komatsu HD785-7 — на 1000 моточасов в хвостовой, самой изнашиваемой части кузова</p></article>
+          <article><h4>ПАО «Селигдар», Якутия</h4><span class="v">A60H</span><p>Футеровка для сочленённого самосвала Volvo A60H</p></article>
+        </div>
+        <div class="thumbs">
+          <figure><img src="img/komatsu.webp" alt="Komatsu HD785 в карьере" loading="lazy" width="848" height="445"><figcaption class="mono">Komatsu HD785</figcaption></figure>
+          <figure><img src="img/volvo.webp" alt="Сочленённый самосвал Volvo A60H" loading="lazy" width="800" height="600"><figcaption class="mono">Volvo A60H</figcaption></figure>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="compat">
+  <div class="wrap">
+    <div class="sec-h">
+      <div><p class="kicker mono"><b>Совместимость</b> Марки</p><h2>Карьерные и сочленённые самосвалы</h2></div>
+      <p>Раскрой строится по замеру конкретного кузова, поэтому футеровка не привязана к одной марке.</p>
+    </div>
+    <div class="brands"><span>БелАЗ</span><span>Komatsu</span><span>CAT</span><span>Hitachi</span><span>Volvo</span></div>
+    <div class="brands-n mono"><span>Классы 90 / 130 / 220 т</span><span>Лёгкий кузов важнее для батарейных и беспилотных самосвалов</span></div>
+  </div>
+</section>
+
+<section class="sec" id="process">
+  <div class="wrap">
+    <div class="sec-h">
+      <div><p class="kicker mono"><b>Процесс</b> Четыре шага</p><h2>От замера до работы в карьере</h2></div>
+      <p>Монтаж в полевых условиях, без крана и ангара — в том числе на строящемся ГОКе.</p>
+    </div>
+    <ol class="proc">
+      <li><span class="no mono">01</span><h3>Замер кузова</h3><p>Снимаем размеры, оцениваем днище и борта.</p></li>
+      <li><span class="no mono">02</span><h3>Раскрой под кузов</h3><p>Комплект пластин по карте кузова.</p></li>
+      <li><span class="no mono">03</span><h3>Поставка</h3><p>Комплект приходит готовым к монтажу.</p></li>
+      <li><span class="no mono">04</span><h3>Монтаж и ремонт кузова</h3><p>Устанавливаем футеровку и выполняем небольшой ремонт кузова.</p></li>
+    </ol>
+    <div class="bracket"><div class="bar"></div><div class="lbl"><b class="num">3–5 дней</b><span class="mono">без крана · в поле</span></div></div>
+  </div>
+</section>
+
+<section class="sec" id="models">
+  <div class="wrap">
+    <div class="sec-h">
+      <div><p class="kicker mono"><b>Модели</b> Как работать с нами</p><h2>Купить комплект или получить футеровку как услугу</h2></div>
+      <p>Во втором варианте расходы на футеровку переходят из капитальных в операционные.</p>
+    </div>
+    <div class="models">
+      <article class="card model">
+        <p class="tag mono">Модель 1 · CAPEX</p>
+        <h3>Поставка комплекта</h3>
+        <p>Комплект пластин в раскрое под ваш кузов и монтаж. Футеровка — ваш актив.</p>
+        <svg viewBox="0 0 400 90" aria-hidden="true"><path class="ln2" d="M10 80H390"/><rect class="pl hl" x="20" y="18" width="56" height="62"/><text class="t s" x="20" y="10">разовая закупка</text><g class="ln3"><path d="M100 80V74M150 80V74M200 80V74M250 80V74M300 80V74M350 80V74"/></g></svg>
+      </article>
+      <article class="card model svc">
+        <p class="tag mono">Модель 2 · OPEX</p>
+        <h3>Футеровка как услуга</h3>
+        <p>Расходы распределяются по периодам эксплуатации и выводятся из CAPEX в OPEX.</p>
+        <svg viewBox="0 0 400 90" aria-hidden="true"><path class="ln2" d="M10 80H390"/><g id="opexBars"></g><text class="t s a" x="20" y="10">платежи по периодам</text></svg>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="forum">
+  <div class="wrap forum">
+    <figure><img src="img/forum.webp" alt="Стенд и участники отраслевого форума" loading="lazy" width="600" height="800"></figure>
+    <div>
+      <p class="kicker mono"><b>Форум</b> Официальный партнёр</p>
+      <p class="f-date">12–13<br><span>ноября 2026</span></p>
+      <h2 style="font-size:clamp(22px,2.2vw,32px);margin-top:24px">«Горнодобывающая промышленность: инвестиционные проекты и меры поддержки»</h2>
+      <dl class="f-meta">
+        <div><dt class="mono">Место</dt><dd>«Сколково», Москва</dd></div>
+        <div><dt class="mono">Организаторы</dt><dd>РСПП и Минпромторг России</dd></div>
+        <div><dt class="mono">Wearfors</dt><dd>Доклады в сессиях № 5 и № 10</dd></div>
+      </dl>
+      <p style="color:var(--ink-2);max-width:36em">Встречи по записи оба дня. Приходите с моделью и числом самосвалов — посчитаем эффект на месте.</p>
+      <p style="margin-top:24px"><a class="btn" href="#contact">Записаться на встречу</a></p>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="contact">
+  <div class="wrap req">
+    <div>
+      <p class="kicker mono"><b>Заявка</b> Расчёт под ваш самосвал</p>
+      <h2 style="font-size:clamp(30px,3.4vw,50px)">Начнём с замера кузова</h2>
+      <p style="color:var(--ink-2);margin-top:18px;max-width:30em">Укажите модель и число самосвалов — подготовим расчёт и предложим время замера.</p>
+      <div class="contacts">
+        <a href="mailto:info@wearfors.com">info@wearfors.com</a>
+        <a href="tel:+78127089930" class="num">+7 (812) 708-99-30</a>
+      </div>
+    </div>
+    <form class="card form grid-bg" id="reqForm" novalidate>
+      <div class="fld"><label class="mono" for="fName">Имя</label><input type="text" id="fName" name="name" autocomplete="name" required></div>
+      <div class="fld"><label class="mono" for="fCo">Компания</label><input type="text" id="fCo" name="company" autocomplete="organization"></div>
+      <div class="fld w"><label class="mono" for="fCt">Телефон или e-mail</label><input type="text" id="fCt" name="contact" autocomplete="email" required></div>
+      <div class="fld"><label class="mono" for="fM">Модель самосвала</label><input type="text" id="fM" name="model" placeholder="Например, БелАЗ 75131"></div>
+      <div class="fld"><label class="mono" for="fQ">Число самосвалов</label><input type="number" id="fQ" name="qty" min="1" inputmode="numeric"></div>
+      <div class="fld w"><button class="btn" type="submit" style="justify-content:center;width:100%">Получить расчёт</button></div>
+      <p class="consent">Нажимая на кнопку, вы даёте согласие на обработку персональных данных</p>
+      <p class="done" role="status" aria-live="polite" id="reqDone">Заявка принята. Мы свяжемся с вами, чтобы уточнить данные кузова.</p>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div><img class="l-d" style="display:var(--logo-d)" src="img/logo_white.webp" alt="Wearfors" width="600" height="460"><img style="display:var(--logo-l)" src="img/logo.webp" alt="" width="600" height="460"></div>
+    <p><b>ООО «Веарфорс»</b><br>ИНН 7839128004<br>ОГРН 1207800062788<br>Патент РФ № 2835696</p>
+    <p>195027, Санкт-Петербург,<br>ул. Якорная, 9А, пом. 12Н,<br>офис 31–32</p>
+    <p><a href="tel:+78127089930">+7 (812) 708-99-30</a><br><a href="mailto:info@wearfors.com">info@wearfors.com</a></p>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/SplitText.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/DrawSVGPlugin.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/MorphSVGPlugin.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/MotionPathPlugin.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+(function(){
+'use strict';
+const NS='http://www.w3.org/2000/svg';
+const root=document.documentElement;
+function E(t,a,p){const e=document.createElementNS(NS,t);if(a)for(const k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e;}
+const clamp=(v,a,b)=>v<a?a:v>b?b:v;
+const lerp=(a,b,t)=>a+(b-a)*t;
+const r1=v=>Math.round(v*10)/10;
+const C=Math.cos(Math.PI/6),S=.5;
+const BL=560,BW=300;
+const ztop=x=>120+(x+70)/(BL+70)*50;
+function rng(seed){return function(){seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+const dq=pts=>'M'+pts.map(p=>r1(p[0])+','+r1(p[1])).join('L')+'Z';
+const dl=pts=>'M'+pts.map(p=>r1(p[0])+','+r1(p[1])).join('L');
+const HAS_GSAP=typeof window.gsap!=='undefined'&&typeof window.ScrollTrigger!=='undefined';
+const HAS_DRAW=HAS_GSAP&&typeof window.DrawSVGPlugin!=='undefined';
+const HAS_MORPH=HAS_GSAP&&typeof window.MorphSVGPlugin!=='undefined';
+const HAS_MP=HAS_GSAP&&typeof window.MotionPathPlugin!=='undefined';
+if(HAS_GSAP){
+  const pl=[ScrollTrigger];
+  ['SplitText','DrawSVGPlugin','MorphSVGPlugin','MotionPathPlugin'].forEach(n=>{if(window[n])pl.push(window[n]);});
+  gsap.registerPlugin(...pl);
+}
+const reduceMQ=matchMedia('(prefers-reduced-motion: reduce)');
+
+/* ---------- plate lattice (from plate.webp): Hp=100 units ---------- */
+const HP=100,PW=279.6,CP=10.6,RX=4.1,RY=7;
+const HOLES=[];
+for(let k=0;k<=26;k++){
+  const x=2+k*CP; const ys=k%2===0?[-1.6,23.4,48.4,73.4,98.4]:[10.9,35.9,60.9,85.9];
+  ys.forEach(y=>HOLES.push([x,y]));
+}
+
+/* =============== SCENE =============== */
+let UID=0;
+class Scene{
+  constructor(svg,mode){
+    this.svg=svg;this.mode=mode;const u=this.u='s'+(UID++);
+    svg.setAttribute('viewBox','0 0 1000 860');svg.setAttribute('preserveAspectRatio','xMidYMid meet');
+    this.fit();
+    const d=this.defs=E('defs',null,svg);
+    const h1=E('pattern',{id:u+'h1',width:7,height:7,patternUnits:'userSpaceOnUse',patternTransform:'rotate(45)'},d);E('line',{x1:0,y1:0,x2:0,y2:7,class:'hatch-ln'},h1);
+    const h2=E('pattern',{id:u+'h2',width:5,height:5,patternUnits:'userSpaceOnUse',patternTransform:'rotate(-45)'},d);E('line',{x1:0,y1:0,x2:0,y2:5,class:'hatch-ln'},h2);
+    const st=E('pattern',{id:u+'st',width:9,height:9,patternUnits:'userSpaceOnUse'},d);
+    [[2,2,.9],[6.5,4.6,.7],[3.6,7.4,.6],[8,8.2,.5]].forEach(c=>E('circle',{cx:c[0],cy:c[1],r:c[2],class:'st-dot'},st));
+    const k=this.k,ox=this.ox,oy=this.oy;
+    const mk=(id,m)=>{const pt=E('pattern',{id:u+id,width:10.6,height:12.5,patternUnits:'userSpaceOnUse',patternTransform:'matrix('+m.map(v=>v.toFixed(4)).join(' ')+')'},d);
+      E('ellipse',{cx:2.65,cy:3.1,rx:2.05,ry:3.5,class:'pf-h'},pt);E('ellipse',{cx:7.95,cy:9.35,rx:2.05,ry:3.5,class:'pf-h'},pt);};
+    mk('pF',[C*k,S*k,-C*k,S*k,ox,oy]);
+    mk('pW0',[C*k,S*k,0,k,ox,oy]);
+    mk('pW1',[C*k,S*k,0,k,ox-BW*C*k,oy+BW*S*k]);
+    mk('pFr',[-C*k,S*k,0,k,ox+BL*C*k,oy+BL*S*k]);
+    this.g3d=E('g',null,svg);
+    this.buildBody();this.buildCons();this.buildDims();this.buildScan();this.buildPerf();this.buildPlates();this.buildSecLine();
+    this.buildDetail();this.buildTimeline();this.buildSection();
+  }
+  P(x,y,z){return [this.ox+(x-y)*C*this.k,this.oy+((x+y)*S-z)*this.k];}
+  pl(a,close){const p=a.map(q=>this.P(q[0],q[1],q[2]));return close?dq(p):dl(p);}
+  fit(){
+    const pts=[[-70,0,45],[-70,0,120],[BL,0,170],[BL,BW,0],[-70,BW,45],[BL+170,0,195],[BL+170,BW,180],[90,BW+15,-192],[BL+175,BW,-188],[90,-15,-8],[0,0,262],[BL,0,262],[-182,0,120],[-182,BW,120],[BL,-112,170],[BL,-112,0],[-110,-30,200]];
+    let a=1e9,b=-1e9,c=1e9,e=-1e9;
+    pts.forEach(p=>{const sx=(p[0]-p[1])*C,sy=(p[0]+p[1])*S-p[2];a=Math.min(a,sx);b=Math.max(b,sx);c=Math.min(c,sy);e=Math.max(e,sy);});
+    const R={x:50,y:24,w:900,h:790};
+    this.k=Math.min(R.w/(b-a),R.h/(e-c));
+    this.ox=R.x+(R.w-(b-a)*this.k)/2-a*this.k;this.oy=R.y+(R.h-(e-c)*this.k)/2-c*this.k;
+  }
+  text(g,x,y,s,cls,anchor){const t=E('text',{x:r1(x),y:r1(y),class:cls||'t'},g);if(anchor)t.setAttribute('text-anchor',anchor);t.textContent=s;return t;}
+  callout(g,from,knee,to,s,cls,anchor){
+    const p=E('path',{d:dl([from,knee,to]),class:cls&&cls.indexOf('a')>=0?'ac':'ln2'},g);
+    E('circle',{cx:r1(from[0]),cy:r1(from[1]),r:2.6,class:cls&&cls.indexOf('a')>=0?'acf':'lf'},g);
+    const t=this.text(g,to[0]+(anchor==='end'?-6:6),to[1]+4,s,'t '+(cls||''),anchor);return [p,t];
+  }
+  buildBody(){
+    const g=this.g3d;
+    const ch=this.gCh=E('g',{class:'ln2'},g);
+    const wheel=(cx,y,cz,r)=>{const a=[];for(let i=0;i<=48;i++){const t=i/48*Math.PI*2;a.push([cx+r*Math.cos(t),y,cz+r*Math.sin(t)]);}return this.pl(a);};
+    [[90,BW+15],[90,BW-25],[BL+175,BW]].forEach(w=>{E('path',{d:wheel(w[0],w[1],-100,92)},ch);E('path',{d:wheel(w[0],w[1],-100,40),class:'ln3'},ch);});
+    E('path',{d:wheel(90,BW+55,-100,92),class:'ln3'},ch);E('path',{d:wheel(BL+175,BW+40,-100,92),class:'ln3'},ch);
+    E('path',{d:this.pl([[-30,70,-45],[BL+260,70,-45]])+this.pl([[-30,BW-70,-45],[BL+260,BW-70,-45]])},ch);
+    const cab=[[BL+30,BW-140],[BL+160,BW-140],[BL+160,BW-10],[BL+30,BW-10]];
+    E('path',{d:this.pl(cab.map(c=>[c[0],c[1],140]),true)+this.pl([[BL+160,BW-140,-40],[BL+160,BW-10,-40],[BL+30,BW-10,-40]])+this.pl([[BL+160,BW-140,140],[BL+160,BW-140,-40]])+this.pl([[BL+160,BW-10,140],[BL+160,BW-10,-40]])+this.pl([[BL+30,BW-10,140],[BL+30,BW-10,-40]])},ch);
+    E('path',{d:this.pl([[BL+160,BW-120,110],[BL+160,BW-30,110],[BL+160,BW-30,40],[BL+160,BW-120,40]],true),class:'ln3'},ch);
+    const b=this.gBody=E('g',null,g);
+    const prof=y=>[[-70,y,45],[0,y,0],[BL,y,0],[BL,y,170],[-70,y,120]];
+    E('path',{d:this.pl(prof(0),true),class:'sf'},b);
+    E('path',{d:this.pl([[0,0,0],[BL,0,0],[BL,BW,0],[0,BW,0]],true),class:'sf'},b);
+    E('path',{d:this.pl([[-70,0,45],[0,0,0],[0,BW,0],[-70,BW,45]],true),class:'sf'},b);
+    E('path',{d:this.pl([[BL,0,0],[BL,BW,0],[BL,BW,170],[BL,0,170]],true),class:'sf'},b);
+    E('path',{d:this.pl(prof(0),true)+this.pl([[BL,0,0],[BL,BW,0]])+this.pl([[0,0,0],[0,BW,0]])+this.pl([[-70,0,45],[-70,BW,45]])+this.pl([[BL,0,170],[BL,BW,170]])+this.pl([[-70,-10,121],[BL,-10,172]])+this.pl([[-70,0,120],[-70,-10,121]]),class:'ln'},b);
+    E('path',{d:this.pl([[BL,0,170],[BL+170,0,195],[BL+170,BW,195],[BL,BW,170]])+this.pl([[BL+170,0,195],[BL+170,0,180],[BL+170,BW,180],[BL+170,BW,195]])+this.pl([[BL+40,0,176],[BL+40,BW,176]])+this.pl([[BL+90,0,183],[BL+90,BW,183]])+this.pl([[BL+130,0,189],[BL+130,BW,189]]),class:'ln'},b);
+    E('path',{d:this.pl(prof(BW),true)+this.pl([[-70,BW+10,121],[BL,BW+10,172]]),class:'ph'},b);
+    for(let i=1;i<6;i++){const x=-70+i*(BL+70)/6;E('path',{d:this.pl([[x,BW+10,ztop(x)],[x,BW+10,x<0?45*(-x/70):0]]),class:'ln3'},b);}
+  }
+  buildCons(){
+    const g=this.gCons=E('g',null,this.g3d);this.consP=[];
+    const box=[[-70,0,0],[BL,0,0],[BL,BW,0],[-70,BW,0]];
+    const add=d=>this.consP.push(E('path',{d,class:'cs'},g));
+    add(this.pl(box,true));add(this.pl(box.map(p=>[p[0],p[1],170]),true));
+    box.forEach(p=>add(this.pl([p,[p[0],p[1],170]])));
+    add(this.pl([[-300,0,0],[BL+330,0,0]]));add(this.pl([[0,-170,0],[0,BW+230,0]]));add(this.pl([[0,0,-70],[0,0,320]]));
+  }
+  buildDims(){
+    const g=this.gDims=E('g',null,this.g3d);this.dims=[];
+    const mk=(e1,e2,d,label,dx,dy,anchor)=>{
+      const it={lines:[],arrows:[],label:null};
+      [e1,e2,d].forEach(seg=>it.lines.push(E('path',{d:this.pl(seg),class:seg===d?'ln':'ln2'},g)));
+      const A=this.P(...d[0]),B=this.P(...d[1]);let vx=B[0]-A[0],vy=B[1]-A[1];const L=Math.hypot(vx,vy);vx/=L;vy/=L;const nx=-vy,ny=vx;
+      const ar=(T,s)=>E('path',{d:dq([T,[T[0]+s*vx*11+nx*3.2,T[1]+s*vy*11+ny*3.2],[T[0]+s*vx*11-nx*3.2,T[1]+s*vy*11-ny*3.2]]),class:'lf'},g);
+      it.arrows.push(ar(A,1),ar(B,-1));
+      it.label=this.text(g,(A[0]+B[0])/2+dx,(A[1]+B[1])/2+dy,label,'t',anchor||'middle');
+      this.dims.push(it);
+    };
+    mk([[0,0,ztop(0)+8],[0,0,262]],[[BL,0,178],[BL,0,262]],[[0,0,250],[BL,0,250]],'L · длина платформы',-14,-12);
+    mk([[-78,0,120],[-182,0,120]],[[-78,BW,120],[-182,BW,120]],[[-170,0,120],[-170,BW,120]],'B',-14,6,'end');
+    mk([[BL,-8,0],[BL,-112,0]],[[BL,-8,170],[BL,-112,170]],[[BL,-100,0],[BL,-100,170]],'H',14,4,'start');
+    const cg=this.gCap=E('g',null,this.g3d);
+    const T=this.P(-70,BW,45);
+    this.callout(cg,T,[T[0]-10,T[1]+90],[T[0]+30,T[1]+90],'класс 90 / 130 / 220 т','a');
+  }
+  buildScan(){
+    const g=this.gScan=E('g',null,this.g3d);
+    this.head=this.P(-110,-30,200);
+    this.ray=E('path',{class:'acf',opacity:.08},g);
+    this.scanGlow=E('path',{class:'ac',opacity:.25,'stroke-width':7},g);
+    this.scanL=E('path',{class:'ac'},g);
+    const H=this.head;E('path',{d:`M${r1(H[0]-9)},${r1(H[1])}H${r1(H[0]+9)}M${r1(H[0])},${r1(H[1]-9)}V${r1(H[1]+9)}`,class:'ac'},g);
+    E('circle',{cx:r1(H[0]),cy:r1(H[1]),r:5,class:'ac'},g);
+    this.text(g,H[0]+14,H[1]-10,'сканер','t s a');
+    const gp=this.gPts=E('g',null,this.g3d);this.cols=[];
+    const cross=p=>`M${r1(p[0]-3.5)},${r1(p[1])}h7M${r1(p[0])},${r1(p[1]-3.5)}v7`;
+    for(let x=35;x<BL;x+=70){
+      let d='';for(let y=25;y<BW;y+=50)d+=cross(this.P(x,y,0));for(let z=20;z<=100;z+=40)d+=cross(this.P(x,0,z));
+      this.cols.push({x,el:E('path',{d,class:'ln',opacity:1},gp)});
+    }
+    const gl=this.gScanLbl=E('g',null,this.g3d);
+    const F=this.P(BL*.62,BW*.62,0),W=this.P(BL*.35,0,95);
+    this.callout(gl,F,[F[0]+60,F[1]+70],[F[0]+110,F[1]+70],'днище · оценка','');
+    this.callout(gl,W,[W[0]-20,W[1]-80],[W[0]+20,W[1]-80],'борта · оценка','');
+  }
+  scanAt(xs){
+    const zf=x=>x<0?45*(-x/70):0;const zt=ztop(xs);
+    const a=this.P(xs,0,zt),b=this.P(xs,0,zf(xs)),c=this.P(xs,BW,zf(xs)),d=this.P(xs,BW,zt);
+    const s=dl([a,b,c,d]);this.scanL.setAttribute('d',s);this.scanGlow.setAttribute('d',s);
+    this.ray.setAttribute('d',dq([this.head,a,b,c]));
+    this.cols.forEach(c=>c.el.setAttribute('opacity',clamp((xs-c.x)/40,0,1).toFixed(2)));
+  }
+  buildPerf(){
+    const g=this.gPerf=E('g',null,this.g3d);const u=this.u;
+    E('path',{d:this.pl([[0,0,0],[BL,0,0],[BL,BW,0],[0,BW,0]],true),fill:`url(#${u}pF)`},g);
+    E('path',{d:this.pl([[0,0,0],[BL,0,0],[BL,0,100],[0,0,100]],true),fill:`url(#${u}pW0)`},g);
+    E('path',{d:this.pl([[BL,0,0],[BL,BW,0],[BL,BW,120],[BL,0,120]],true),fill:`url(#${u}pFr)`},g);
+  }
+  buildPlates(){
+    const gs=this.gSeams=E('g',null,this.g3d);
+    const g=this.gPlates=E('g',null,this.g3d);
+    const gn=this.gNums=E('g',null,this.g3d);
+    const s=.92,gap=16,FX0=500-(BL*s+gap+120*s)/2,FY0=194+100*s+gap;
+    const surf={
+      floor:{nu:4,nv:6,U:BL,V:BW,p3:(a,b)=>[a,b,0],pf:(a,b)=>[FX0+a*s,FY0+b*s],pre:'Д'},
+      far:{nu:4,nv:2,U:BL,V:100,p3:(a,b)=>[a,0,b],pf:(a,b)=>[FX0+a*s,FY0-gap-b*s],pre:'Б'},
+      near:{nu:4,nv:2,U:BL,V:100,p3:(a,b)=>[a,BW,b],pf:(a,b)=>[FX0+a*s,FY0+BW*s+gap+b*s],pre:'Б'},
+      front:{nu:2,nv:2,U:BW,V:120,p3:(a,b)=>[BL,a,b],pf:(a,b)=>[FX0+BL*s+gap+b*s,FY0+a*s],pre:'П'}
+    };
+    this.plates=[];let bn=0;const G=2.5;
+    Object.keys(surf).forEach((key,si)=>{const sf=surf[key];
+      for(let i=0;i<sf.nu;i++)for(let j=0;j<sf.nv;j++){
+        const u0=i*sf.U/sf.nu+G,u1=(i+1)*sf.U/sf.nu-G,v0=j*sf.V/sf.nv+G,v1=(j+1)*sf.V/sf.nv-G;
+        const q=[[u0,v0],[u1,v0],[u1,v1],[u0,v1]];
+        const p3=q.map(c=>this.P(...sf.p3(c[0],c[1]))),pf=q.map(c=>sf.pf(c[0],c[1]));
+        const cen=a=>[a.reduce((s,p)=>s+p[0],0)/4,a.reduce((s,p)=>s+p[1],0)/4];
+        const c3=cen(p3),cf=cen(pf),dx=c3[0]-cf[0],dy=c3[1]-cf[1];
+        const hl=key==='floor'&&i===0&&j===2;
+        let n;if(key==='floor')n=i*6+j+1;else if(key==='front')n=i*2+j+1;else n=++bn;
+        const id=sf.pre+'-'+String(n).padStart(2,'0');
+        const cls='pl'+(key==='near'?' near':'')+(hl?' hl':'');
+        const pl={d3:dq(p3),df:dq(pf),d3o:dq(p3.map(p=>[p[0]-dx,p[1]-dy])),dx,dy,cf,o:si*.22+(i/sf.nu)*.12+(j/sf.nv)*.06,hl,near:key==='near',id};
+        pl.seam=E('path',{d:pl.d3,class:'seam'+(hl?' hl':''),opacity:key==='near'?.4:1},gs);
+        pl.el=E('path',{d:pl.d3,class:cls},g);
+        pl.num=this.text(gn,cf[0],cf[1],id,'pn'+(hl?' hl':''));
+        if(hl){this.hlp=pl;this.hlBox={x:pf[0][0],y:pf[0][1],w:pf[1][0]-pf[0][0],h:pf[3][1]-pf[0][1]};}
+        this.plates.push(pl);
+      }});
+    if(this.hlp)g.appendChild(this.hlp.el);
+    const zl=[[FX0+BL*s/2,FY0-gap-100*s-10,'борт · Б-01…08'],[FX0+BL*s/2,FY0+BW*s+gap+100*s+20,'борт · Б-09…16'],[FX0-12,FY0+BW*s/2,'днище'],[FX0+BL*s+gap+60*s,FY0-12,'передний']];
+    zl.forEach((z,i)=>this.text(gn,z[0],z[1],z[2],'t s',i===2?'end':'middle'));
+    this.text(gn,60,96,'развёртка · карта раскроя','t a');
+  }
+  buildSecLine(){
+    const g=this.gSec1=E('g',null,this.g3d);
+    const a=this.P(210,-40,0),b=this.P(210,BW+40,0);
+    this.secLn=E('path',{d:dl([a,b]),class:'ac','stroke-dasharray':'14 5 3 5'},g);
+    this.secMarks=E('g',null,g);
+    [a,b].forEach(p=>{this.text(this.secMarks,p[0]-8,p[1]-8,'А','t a','end');});
+  }
+  buildDetail(){
+    const u=this.u;
+    const g=this.gDet=E('g',null,this.svg);
+    const m=E('mask',{id:u+'pm',maskUnits:'userSpaceOnUse',x:-6,y:-6,width:PW+12,height:HP+12},this.defs);
+    E('rect',{x:-6,y:-6,width:PW+12,height:HP+12,fill:'#fff'},m);
+    const cp=E('clipPath',{id:u+'pc'},this.defs);E('rect',{x:0,y:0,width:PW,height:HP},cp);
+    this.det=E('g',null,g);
+    E('rect',{x:0,y:0,width:PW,height:HP,class:'det-plate',mask:`url(#${u}pm)`},this.det);
+    E('rect',{x:0,y:0,width:PW,height:HP,class:'det-o',mask:`url(#${u}pm)`},this.det);
+    const hg=E('g',{'clip-path':`url(#${u}pc)`},this.det);
+    this.holes=HOLES.map(h=>({m:E('ellipse',{cx:h[0],cy:h[1],rx:RX,ry:RY,fill:'#000'},m),s:E('ellipse',{cx:h[0],cy:h[1],rx:RX,ry:RY,class:'det-h'},hg),x:h[0],y:h[1]}));
+    this.punch=E('g',{opacity:0},this.det);
+    E('ellipse',{cx:0,cy:0,rx:RX+2.2,ry:RY+2.2,class:'ac','vector-effect':'non-scaling-stroke'},this.punch);
+    E('path',{d:'M-12,0H-7M7,0H12M0,-15V-10M0,10V15',class:'ac','vector-effect':'non-scaling-stroke'},this.punch);
+    this.Z1={cx:500,cy:330,sc:780/PW};
+    const B=this.hlBox||{x:0,y:0,w:100,h:40};this.Z0={cx:B.x+B.w/2,cy:B.y+B.h/2,sc:B.w/PW};
+    // annotations at zoomed state (screen coords)
+    const an=this.gDetAnn=E('g',null,g);
+    const X=x=>this.Z1.cx+(x-PW/2)*this.Z1.sc,Y=y=>this.Z1.cy+(y-HP/2)*this.Z1.sc;
+    this.text(an,X(0),Y(0)-48,'пластина Д-03 · t = 10–16 мм','t a');
+    const h1=[X(2+7*CP),Y(10.9)];this.callout(an,[h1[0],h1[1]-RY*this.Z1.sc-2],[h1[0]+30,Y(0)-22],[h1[0]+60,Y(0)-22],'овалы в шахматном порядке','');
+    const n1=[X(2+22*CP),Y(0)];this.callout(an,[n1[0],n1[1]+4],[n1[0]+30,Y(0)-48],[X(PW),Y(0)-48],'полуовальные вырезы','','end');
+    // section Б–Б
+    const sy=Y(HP)+40,sh=16;
+    let x0=X(0),d='';const gapsX=[];for(let k=0;k<=26;k+=2){gapsX.push([X(2+k*CP-RX),X(2+k*CP+RX)]);}
+    gapsX.forEach(gx=>{const a=Math.max(x0,X(0)),b=gx[0];if(b>a)d+=`M${r1(a)},${r1(sy)}H${r1(b)}V${r1(sy+sh)}H${r1(a)}Z`;x0=gx[1];});
+    if(x0<X(PW))d+=`M${r1(x0)},${r1(sy)}H${r1(X(PW))}V${r1(sy+sh)}H${r1(x0)}Z`;
+    E('path',{d,fill:`url(#${u}h2)`,class:'ln'},an).setAttribute('fill',`url(#${u}h2)`);
+    this.text(an,X(0),sy-10,'сечение Б–Б','t s');
+    const dx=X(PW)+18;
+    E('path',{d:`M${r1(X(PW)+4)},${r1(sy)}H${r1(dx+8)}M${r1(X(PW)+4)},${r1(sy+sh)}H${r1(dx+8)}M${r1(dx)},${r1(sy-22)}V${r1(sy+sh+22)}`,class:'ln2'},an);
+    E('path',{d:dq([[dx,sy],[dx-3,sy-10],[dx+3,sy-10]])+dq([[dx,sy+sh],[dx-3,sy+sh+10],[dx+3,sy+sh+10]]),class:'lf'},an);
+    this.text(an,dx-6,sy+sh+40,'10–16 мм','t a','end');
+    // mass bar
+    const my=sy+76,mw=420,mx=500-mw/2;
+    
+    E('rect',{x:mx,y:my,width:mw,height:10,class:'ln2'},an);
+    this.massBar=E('rect',{x:mx,y:my,width:mw,height:10,class:'lf',opacity:.55},an);
+    let area=0;HOLES.forEach(h=>{const top=Math.max(0,h[1]-RY),bot=Math.min(HP,h[1]+RY);if(bot>top)area+=Math.PI*RX*RY*(bot-top)/(2*RY);});
+    this.massFrac=1-area/(PW*HP);
+    this.text(an,mx+mw,my-10,'масса: сплошной лист → перфорированный','t s','end');
+    this.massLbl=this.text(an,mx+mw*this.massFrac+8,my+28,'− масса','t a');
+    this.applyZ(1);
+  }
+  applyZ(z){
+    const a=this.Z0,b=this.Z1,cx=lerp(a.cx,b.cx,z),cy=lerp(a.cy,b.cy,z),sc=lerp(a.sc,b.sc,z);
+    this.det.setAttribute('transform',`translate(${cx.toFixed(2)} ${cy.toFixed(2)}) scale(${sc.toFixed(4)}) translate(${-PW/2} ${-HP/2})`);
+  }
+  buildTimeline(){
+    const g=this.gTime=E('g',{transform:'translate(0 120)'},this.svg);
+    const y=650,x0=300,dd=80;
+    this.text(g,x0-20,y+4,'монтаж','t','end');
+    E('path',{d:`M${x0},${y}H${x0+5*dd}`,class:'ln2'},g);
+    for(let i=0;i<=5;i++){E('path',{d:`M${x0+i*dd},${y-5}V${y+5}`,class:'ln2'},g);this.text(g,x0+i*dd,y+22,i===0?'0':'д'+i,'t s','middle');}
+    this.tBar=E('rect',{x:x0,y:y-4,width:3*dd,height:8,class:'acf'},g);
+    this.tBar2=E('rect',{x:x0+3*dd,y:y-4,width:2*dd,height:8,fill:`url(#${this.u}h1)`,class:'ac','stroke-width':1},g);
+    this.tBar2.setAttribute('fill',`url(#${this.u}h1)`);
+    this.text(g,x0+5*dd,y+50,'3–5 дней · без крана · в поле','t a','end');
+  }
+  buildSection(){
+    const g=this.gSec=E('g',{transform:'translate(0 70)'},this.svg);const u=this.u;
+    const X0=110,X1=890,yP=470,yF=504,yB=536;this.secOut=[];
+    this.text(g,X0,336,'разрез А–А · схема','t a');
+    const fl=E('rect',{x:X0,y:yF,width:X1-X0,height:yB-yF,class:'ln'},g);fl.setAttribute('fill',`url(#${u}h1)`);this.secOut.push(fl);
+    const gaps=[];let x=X0+30,k=0;while(x<X1-24){const w=k%2?22:34;gaps.push([x-w/2,w]);x+=58;k++;}
+    let prev=X0;gaps.forEach(gp=>{const r=E('rect',{x:prev,y:yP,width:r1(gp[0]-prev),height:yF-yP,class:'ln'},g);r.setAttribute('fill',`url(#${u}h2)`);this.secOut.push(r);prev=gp[0]+gp[1];});
+    const r=E('rect',{x:prev,y:yP,width:r1(X1-prev),height:yF-yP,class:'ln'},g);r.setAttribute('fill',`url(#${u}h2)`);this.secOut.push(r);
+    [X0,X1].forEach(bx=>this.secOut.push(E('path',{d:`M${bx},${yP-60}l0,40l-7,6l14,8l-7,6l0,${yB-yP+30}`,class:'ln2'},g)));
+    // rocks
+    const R=rng(7);const rocks=[];
+    const blob=(cx,cy,rr,n)=>{const pts=[];const ph=R()*6;for(let i=0;i<n;i++){const a=ph+i/n*Math.PI*2;const q=rr*(.72+R()*.38);pts.push([cx+Math.cos(a)*q,cy+Math.sin(a)*q*.86]);}return dq(pts);};
+    gaps.forEach((gp,i)=>{const cx=gp[0]+gp[1]/2;for(let j=0;j<3;j++){const rr=gp[1]*.36;rocks.push({fine:1,d:blob(0,0,rr,6),x:cx+(R()-.5)*gp[1]*.3,y:yF-rr*.9-j*rr*1.25,del:.02+i/gaps.length*.3+j*.03});}});
+    for(let row=0;row<2;row++){let xx=X0+8+row*9;while(xx<X1-10){const rr=8+R()*11;rocks.push({d:blob(0,0,rr,7),x:xx+rr,y:yP-rr*.82-row*20-R()*4,del:.38+row*.22+R()*.25});xx+=rr*1.75+R()*5;}}
+    const rg=E('g',null,g);this.rocks=rocks.map(o=>{const w=E('g',{transform:`translate(${r1(o.x)} ${r1(o.y)})`},rg);const e=E('path',{d:o.d,class:'rock'},w);e.setAttribute('fill',`url(#${u}st)`);e.style.fill=`url(#${u}st)`;o.el=e;return o;});
+    this.rocks.forEach(o=>{o.el.style.stroke=o.fine?'var(--line)':'var(--line-2)';});
+    // callouts
+    const cg=this.gCall=E('g',null,g);
+    const g3=gaps[4],g3x=g3[0]+g3[1]/2;
+    this.callout(cg,[g3x,yP+16],[g3x,590],[g3x+30,590],'порода в ячейке','');
+    const bx=gaps[8][0]-12;this.callout(cg,[bx,yP+20],[bx,618],[bx+30,618],'пластина Wearfors · 10–16 мм','');
+    const fx=gaps[11][0];this.callout(cg,[fx,yB-8],[fx,646],[fx+30,646],'днище кузова','');
+    this.callout(cg,[300,yP-46],[262,382],[236,382],'износ принимает порода','a','end');
+    E('path',{d:`M560,400H860`,class:'ln2'},cg);E('path',{d:dq([[868,400],[856,396],[856,404]]),class:'lf'},cg);
+    this.text(cg,860,388,'поток горной массы','t s','end');
+    // results
+    const rs=this.gRes=E('g',null,g);
+    [['90',4,150],['130',7,420],['220',9,690]].forEach(c=>{this.text(rs,c[2],130,'класс '+c[0]+' т','t');this.text(rs,c[2],198,'+'+c[1]+' т','tb'+(c[0]==='130'?' a':''));this.text(rs,c[2],226,'за рейс','t s');});
+    E('path',{d:'M150,252H890',class:'ln3'},rs);
+    this.text(rs,150,284,'−3–5 % топлива на тонну горной массы','t a');
+  }
+  /* static final states per step (no GSAP needed) */
+  applyStatic(p){
+    const i=p<=0?0:Math.min(6,Math.ceil(p-1e-6));
+    const show=(el,v)=>el.setAttribute('opacity',v);
+    show(this.g3d,i<=5?1:0);show(this.gBody,i===3||i===4?.18:1);show(this.gCh,i===3||i===4?0:1);
+    show(this.gCons,i===1?.22:0);show(this.gDims,i===1?1:0);show(this.gCap,i===1?1:0);
+    show(this.gScan,0);show(this.gPts,i===2?1:0);show(this.gScanLbl,i===2?1:0);this.scanAt(BL);
+    show(this.gSeams,0);show(this.gPlates,i>=3&&i<=5?(i===4?.25:1):0);show(this.gNums,i===3?1:i===4?.25:0);
+    this.plates.forEach(pl=>{pl.el.setAttribute('d',i===5?pl.d3:pl.df);pl.el.removeAttribute('transform');if(pl.near)pl.el.setAttribute('opacity',i===5?.4:1);});
+    show(this.gPerf,i===5?1:0);show(this.gTime,i===5?1:0);show(this.gSec1,i===5?1:0);
+    show(this.gDet,i===4?1:0);show(this.gDetAnn,i===4?1:0);this.applyZ(1);show(this.punch,0);
+    this.massBar.setAttribute('width',420*this.massFrac);
+    show(this.gSec,i===6?1:0);
+    if(i===0){show(this.gPlates,0);show(this.gNums,0);}
+  }
+  /* GSAP master timeline, time unit = step */
+  timeline(withPhoto){
+    const tl=gsap.timeline({paused:true,defaults:{ease:'none'}});
+    const set=gsap.set;const D=HAS_DRAW;
+    const draw0=els=>{if(D)set(els,{drawSVG:'0%'});};
+    const drawTo=(els,dur,pos,stag)=>{if(D)tl.to(els,{drawSVG:'100%',duration:dur,stagger:stag||0,ease:'power1.inOut'},pos);else tl.fromTo(els,{opacity:0},{opacity:1,duration:dur,stagger:stag||0},pos);};
+    // initial state p=0
+    set([this.g3d,this.gBody,this.gCh,this.gCons],{opacity:1});
+    set([this.gDims,this.gCap,this.gScan,this.gPts,this.gScanLbl,this.gSeams,this.gPlates,this.gNums,this.gPerf,this.gTime,this.gSec1,this.gDet,this.gDetAnn,this.gSec,this.gCall,this.gRes,this.punch],{opacity:0});
+    this.plates.forEach(pl=>{pl.el.setAttribute('d',pl.d3);set(pl.el,{x:0,y:0});if(pl.near)pl.el.setAttribute('opacity',.4);});
+    draw0(this.consP);this.dims.forEach(d=>{draw0(d.lines);set(d.arrows.concat(d.label),{opacity:0});});
+    this.scanAt(-70);draw0(this.plates.map(p=>p.seam));draw0(this.secLn);set(this.secMarks,{opacity:0});
+    this.applyZ(0);this.holes.forEach(h=>{h.m.setAttribute('rx',0);h.m.setAttribute('ry',0);h.s.setAttribute('rx',0);h.s.setAttribute('ry',0);});
+    this.massBar.setAttribute('width',420);set(this.massLbl,{opacity:0});
+    set([this.tBar,this.tBar2],{attr:{width:0}});
+    draw0(this.secOut);this.rocks.forEach(o=>set(o.el,{y:-240,opacity:0}));set(this.gRes,{y:14});
+    // 1 · body + dims
+    drawTo(this.consP,.4,.05,.02);
+    tl.to(this.gCons,{opacity:.22,duration:.3},.62);
+    tl.to(this.gDims,{opacity:1,duration:.05},.1);
+    this.dims.forEach((d,i)=>{const t0=.14+i*.13;drawTo(d.lines,.26,t0,.04);tl.to(d.arrows,{opacity:1,duration:.04},t0+.3);tl.to(d.label,{opacity:1,duration:.08},t0+.28);});
+    tl.to(this.gCap,{opacity:1,duration:.2},.55);
+    tl.to([this.gDims,this.gCap],{opacity:0,duration:.14},1.04);
+    // 2 · scan
+    const pr={xs:-70,z:0};
+    tl.to(this.gScan,{opacity:1,duration:.07},1.05);
+    tl.to(this.gPts,{opacity:1,duration:.02},1.08);
+    tl.to(pr,{xs:BL,duration:.75,ease:'power1.inOut',onUpdate:()=>this.scanAt(pr.xs)},1.1);
+    tl.to(this.gScan,{opacity:0,duration:.09},1.88);
+    tl.to(this.gScanLbl,{opacity:1,duration:.16},1.62);
+    tl.to(this.gScanLbl,{opacity:0,duration:.12},2.02);
+    tl.to(this.gPts,{opacity:0,duration:.2},2.05);
+    // 3 · seams → unfold (MorphSVG)
+    tl.to(this.gSeams,{opacity:1,duration:.03},2.04);
+    drawTo(this.plates.map(p=>p.seam),.22,2.06,.002);
+    tl.to(this.gPlates,{opacity:1,duration:.04},2.3);tl.to(this.gSeams,{opacity:0,duration:.04},2.32);
+    tl.to(this.gBody,{opacity:.18,duration:.3},2.3);tl.to(this.gCh,{opacity:0,duration:.2},2.3);tl.to(this.gCons,{opacity:0,duration:.2},2.3);
+    this.plates.forEach(pl=>{
+      const pos=2.32+pl.o*.42;
+      if(HAS_MORPH)tl.to(pl.el,{morphSVG:{shape:pl.df,shapeIndex:0},duration:.34,ease:'power2.inOut'},pos);
+      else tl.to(pl.el,{attr:{d:pl.df},duration:.34,ease:'power2.inOut'},pos);
+      if(pl.near)tl.to(pl.el,{attr:{opacity:1},duration:.2},pos);
+    });
+    tl.to(this.gNums,{opacity:1,duration:.15},2.74);
+    // 4 · zoom + punching
+    tl.to(this.gDet,{opacity:1,duration:.04},3.0);
+    tl.to(pr,{z:1,duration:.28,ease:'power2.inOut',onUpdate:()=>this.applyZ(pr.z)},3.0);
+    tl.to([this.gPlates,this.gNums],{opacity:.2,duration:.24},3.02);
+    tl.to(this.gDetAnn,{opacity:1,duration:.1},3.22);
+    tl.to(this.punch,{opacity:1,duration:.02},3.28);
+    const N=this.holes.length,span=.56;
+    this.holes.forEach((h,i)=>{const t=3.3+i/N*span;
+      tl.to([h.m,h.s],{attr:{rx:RX,ry:RY},duration:.02,ease:'back.out(2)'},t);
+      tl.set(this.punch,{attr:{transform:`translate(${h.x} ${h.y})`}},t);});
+    tl.to(this.punch,{opacity:0,duration:.03},3.88);
+    tl.to(this.massBar,{attr:{width:420*this.massFrac},duration:span},3.3);
+    tl.to(this.massLbl,{opacity:1,duration:.06},3.86);
+    tl.to(this.gDetAnn,{opacity:0,duration:.1},4.0);
+    // 5 · back onto body (MotionPath + Morph)
+    tl.to(pr,{z:0,duration:.22,ease:'power2.inOut',onUpdate:()=>this.applyZ(pr.z),immediateRender:false},4.02);
+    tl.to([this.gPlates],{opacity:1,duration:.2},4.04);tl.to(this.gNums,{opacity:0,duration:.12},4.12);
+    tl.to(this.gDet,{opacity:0,duration:.03},4.22);
+    tl.to(this.gBody,{opacity:1,duration:.3},4.32);tl.to(this.gCh,{opacity:1,duration:.25},4.45);
+    this.plates.forEach(pl=>{
+      const pos=4.26+pl.o*.42;
+      if(HAS_MORPH)tl.to(pl.el,{morphSVG:{shape:pl.d3o,shapeIndex:0},duration:.32,ease:'power2.inOut'},pos);
+      else tl.to(pl.el,{attr:{d:pl.d3o},duration:.32,ease:'power2.inOut'},pos);
+      const mx=pl.dx*.5,my=pl.dy*.5-90-Math.abs(pl.dx)*.08;
+      if(HAS_MP)tl.to(pl.el,{motionPath:{path:[{x:0,y:0},{x:mx,y:my},{x:pl.dx,y:pl.dy}],curviness:1.2},duration:.32,ease:'power2.inOut'},pos);
+      else tl.to(pl.el,{x:pl.dx,y:pl.dy,duration:.32,ease:'power2.inOut'},pos);
+      if(pl.near)tl.to(pl.el,{attr:{opacity:.4},duration:.2},pos+.12);
+    });
+    tl.to(this.gPerf,{opacity:1,duration:.15},4.74);
+    tl.to(this.gTime,{opacity:1,duration:.08},4.22);
+    tl.to(this.tBar,{attr:{width:240},duration:.38},4.3);tl.to(this.tBar2,{attr:{width:160},duration:.22},4.68);
+    tl.to(this.gSec1,{opacity:1,duration:.02},4.84);drawTo(this.secLn,.12,4.85);tl.to(this.secMarks,{opacity:1,duration:.05},4.95);
+    // 6 · section + self-lining
+    tl.to([this.g3d,this.gTime],{opacity:0,duration:.11},5.03);
+    tl.to(this.gSec,{opacity:1,duration:.06},5.1);
+    drawTo(this.secOut,.2,5.1,.004);
+    const rs=this.rocks.slice().sort((a,b)=>a.del-b.del);
+    rs.forEach(o=>tl.to(o.el,{y:0,opacity:1,duration:.09,ease:'power2.in'},5.24+o.del*.36));
+    tl.to(this.gCall,{opacity:1,duration:.1},5.58);
+    tl.to(this.gRes,{opacity:1,y:0,duration:.14,ease:'power2.out'},5.66);
+    if(withPhoto){
+      const ph=document.querySelector('.stage-photo'),wp=document.querySelector('.wipe');
+      set(ph,{clipPath:'inset(0% 100% 0% 0%)'});set(wp,{left:'0%',opacity:0});
+      tl.to(wp,{opacity:1,duration:.01},5.86);
+      tl.to(ph,{clipPath:'inset(0% 0% 0% 0%)',duration:.12,ease:'power1.inOut'},5.86);
+      tl.to(wp,{left:'100%',duration:.12,ease:'power1.inOut'},5.86);
+      tl.to(wp,{opacity:0,duration:.01},5.98);
+    }
+    tl.to({},{duration:.01},6);
+    [0,.96,1.96,2.96,3.96,4.96,5.84].forEach((t,i)=>tl.addLabel('s'+i,t));if(withPhoto)tl.addLabel('photo',6);
+    return tl;
+  }
+}
+
+/* =============== STORY CONTROLLER =============== */
+const steps=[...document.querySelectorAll('.step')];
+const NAMES=['Кузов самосвала','Замер','Раскрой','Перфорация','Монтаж','Самофутеровка'];
+const stSheet=document.getElementById('stSheet'),stName=document.getElementById('stName');
+const ticks=[...document.querySelectorAll('#ticks button')];
+let curStep=-1,lenis=null,figsBuilt=false;
+function setActive(i){if(i===curStep)return;curStep=i;steps.forEach((s,j)=>s.classList.toggle('is-active',j===i));ticks.forEach((b,j)=>{b.classList.toggle('on',j===i);b.setAttribute('aria-current',j===i?'step':'false');});stSheet.textContent=String(i+1).padStart(2,'0');stName.textContent=NAMES[i];}
+
+function buildFigs(animate){
+  if(figsBuilt)return;figsBuilt=true;
+  document.querySelectorAll('.fig').forEach(f=>{
+    const svg=E('svg',{'aria-hidden':'true'},f);const sc=new Scene(svg,'fig');
+    const to=parseFloat(f.dataset.to),from=parseFloat(f.dataset.from);
+    sc.applyStatic(to);
+    if(animate&&HAS_GSAP&&to>from){
+      const tl=sc.timeline(false);tl.seek(to);
+      ScrollTrigger.create({trigger:f,start:'top 82%',once:true,onEnter:()=>{tl.seek(from);tl.tweenFromTo(from,to,{duration:2.2,ease:'power1.inOut'});}});
+    }
+  });
+}
+
+function buildStage(){
+  const sc=new Scene(document.getElementById('stageSvg'),'stage');
+  const tl=sc.timeline(true);
+  const hh=()=>document.querySelector('.head').offsetHeight;
+  const pinST=ScrollTrigger.create({trigger:'#stage',pin:true,pinSpacing:false,start:()=>'top top+='+(hh()+12),endTrigger:'.story-text',end:()=>'bottom bottom-=12',invalidateOnRefresh:true});
+  const st=ScrollTrigger.create({trigger:'#steps',start:'top 55%',end:()=>'bottom bottom-=12',animation:tl,scrub:.7,
+    snap:{snapTo:'labelsDirectional',duration:{min:.25,max:.9},delay:.15,ease:'power2.inOut'},
+    onUpdate:self=>setActive(Math.min(5,Math.floor(self.progress*6)))});
+  setActive(0);
+  ticks.forEach((b,i)=>b.addEventListener('click',()=>{
+    const y=st.start+(st.end-st.start)*((i+.96)/6);
+    if(lenis)lenis.scrollTo(y,{duration:1.4});else window.scrollTo({top:y,behavior:'smooth'});
+  }));
+  // SplitText headings
+  if(window.SplitText){
+    steps.forEach(s=>{const h=s.querySelector('h3');const sp=SplitText.create(h,{type:'lines',mask:'lines'});
+      gsap.from(sp.lines,{yPercent:110,duration:.9,ease:'power3.out',stagger:.08,scrollTrigger:{trigger:s,start:'top 62%',toggleActions:'play none none reverse'}});});
+    const h1=document.getElementById('heroTitle');const sp=SplitText.create(h1,{type:'lines',mask:'lines'});
+    gsap.from(sp.lines,{yPercent:105,duration:1.1,ease:'power3.out',stagger:.1,delay:.15});
+  }
+  return {sc,tl,pinST};
+}
+
+const isTouch=matchMedia('(pointer: coarse)').matches;
+if(!HAS_GSAP){
+  root.dataset.mode='static';buildFigs(false);
+}else{
+  if(!reduceMQ.matches&&!isTouch&&typeof window.Lenis!=='undefined'){
+    lenis=new Lenis({lerp:.09});lenis.on('scroll',ScrollTrigger.update);
+    gsap.ticker.add(t=>lenis.raf(t*1000));gsap.ticker.lagSmoothing(0);
+  }
+  const mm=gsap.matchMedia();
+  mm.add({desk:'(min-width:760px) and (prefers-reduced-motion: no-preference)',mob:'(max-width:759px) and (prefers-reduced-motion: no-preference)',rm:'(prefers-reduced-motion: reduce)'},ctx=>{
+    const c=ctx.conditions;
+    if(c.desk){root.dataset.mode='stage';buildStage();}
+    else if(c.mob){root.dataset.mode='mobile';buildFigs(true);}
+    else{root.dataset.mode='static';buildFigs(false);}
+  });
+}
+
+/* anchor links via Lenis */
+document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{
+  const id=a.getAttribute('href');if(id.length<2)return;const t=document.querySelector(id);if(!t)return;
+  if(lenis){e.preventDefault();lenis.scrollTo(t,{offset:-(document.querySelector('.head').offsetHeight)});}
+}));
+
+/* theme */
+const tb=document.getElementById('themeBtn');
+try{const sv=localStorage.getItem('wf-theme');if(sv)root.dataset.theme=sv;}catch(e){}
+tb.addEventListener('click',()=>{const cur=root.dataset.theme||(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark');const nx=cur==='light'?'dark':'light';root.dataset.theme=nx;try{localStorage.setItem('wf-theme',nx);}catch(e){}});
+
+/* =============== CELL (exploded axonometry) =============== */
+(function(){
+  const svg=document.getElementById('cellSvg');const box=document.getElementById('cell'),btn=document.getElementById('cellBtn');
+  const k=1.3,ox=250,oy=170;const P=(x,y,z)=>[ox+(x-y)*C*k,oy+((x+y)*S-z)*k];
+  const UX=200,UY=130,T=16;
+  const defs=E('defs',null,svg);
+  const h1=E('pattern',{id:'ch1',width:7,height:7,patternUnits:'userSpaceOnUse',patternTransform:'rotate(45)'},defs);E('line',{x1:0,y1:0,x2:0,y2:7,class:'hatch-ln'},h1);
+  const h2=E('pattern',{id:'ch2',width:5,height:5,patternUnits:'userSpaceOnUse',patternTransform:'rotate(-45)'},defs);E('line',{x1:0,y1:0,x2:0,y2:5,class:'hatch-ln'},h2);
+  const st=E('pattern',{id:'cst',width:7,height:7,patternUnits:'userSpaceOnUse'},defs);[[2,2,.8],[5,4.5,.7],[2.8,6,.55]].forEach(c=>E('circle',{cx:c[0],cy:c[1],r:c[2],class:'st-dot'},st));
+  const faces=(z0,z1)=>({top:dq([P(0,0,z1),P(UX,0,z1),P(UX,UY,z1),P(0,UY,z1)]),fy:dq([P(0,UY,z0),P(UX,UY,z0),P(UX,UY,z1),P(0,UY,z1)]),fx:dq([P(UX,0,z0),P(UX,UY,z0),P(UX,UY,z1),P(UX,0,z1)])});
+  const M=z=>`matrix(${C*k} ${S*k} ${-C*k} ${S*k} ${ox} ${oy-z*k})`;
+  const cp=E('clipPath',{id:'cclip'},defs);E('rect',{x:0,y:0,width:UX,height:UY},cp);
+  const hp=UY/1.0,cpx=.106*hp*.62,rows=.25*hp*.62,rx=.041*hp*.62,ry=.07*hp*.62;
+  const holes=[];for(let i=0;i*cpx<UX+cpx;i++){for(let j=-1;j*rows<UY+rows;j++){holes.push([i*cpx+4,j*rows+(i%2?rows/2:0)+4]);}}
+  const lbl=(g,from,to,s,cls)=>{const L=E('g',{class:'ldr'},g);E('path',{d:dl([from,[to[0]-20,to[1]],to]),class:cls?'ac':'ln2'},L);E('circle',{cx:from[0],cy:from[1],r:2.6,class:cls?'acf':'lf'},L);const t=E('text',{x:to[0]+6,y:to[1]+4,class:'t'+(cls?' a':'')},L);t.textContent=s;t.style.fontSize='13px';};
+  // base
+  const gb=E('g',{class:'ly ly-base'},svg);const fb=faces(-34,0);
+  E('path',{d:fb.top,class:'sf'},gb);E('path',{d:fb.top,class:'ln2'},gb);
+  E('path',{d:fb.fy,fill:'url(#ch1)',class:'ln'},gb).setAttribute('fill','url(#ch1)');E('path',{d:fb.fx,class:'ln'},gb).setAttribute('fill','url(#ch1)');
+  lbl(gb,P(UX,UY*.5,-17),[470,P(UX,UY*.5,-17)[1]+24],'днище кузова');
+  // plate
+  const gp=E('g',{class:'ly ly-plate'},svg);const fp=faces(0,T);
+  const ms=E('mask',{id:'cmask',maskUnits:'userSpaceOnUse',x:-20,y:-20,width:UX+40,height:UY+40},defs);E('rect',{x:-20,y:-20,width:UX+40,height:UY+40,fill:'#fff'},ms);
+  holes.forEach(h=>E('ellipse',{cx:h[0],cy:h[1],rx,ry,fill:'#000'},ms));
+  E('path',{d:fp.fy,class:'ln'},gp).setAttribute('fill','url(#ch2)');E('path',{d:fp.fx,class:'ln'},gp).setAttribute('fill','url(#ch2)');
+  const pt=E('g',{transform:M(T)},gp);
+  E('rect',{x:0,y:0,width:UX,height:UY,class:'det-plate',mask:'url(#cmask)'},pt);
+  const hg=E('g',{'clip-path':'url(#cclip)'},pt);
+  holes.forEach(h=>{E('ellipse',{cx:h[0],cy:h[1],rx,ry,class:'det-h'},hg);});
+  E('rect',{x:0,y:0,width:UX,height:UY,class:'det-o',mask:'url(#cmask)'},pt);
+  lbl(gp,P(UX,UY*.3,8),[470,P(UX,UY*.3,8)[1]+30],'пластина 10–16 мм','a');
+  // rock
+  const gr=E('g',{class:'ly ly-rock'},svg);
+  const plug=E('g',{transform:M(T),'clip-path':'url(#cclip)'},gr);
+  holes.forEach(h=>{const e=E('ellipse',{cx:h[0],cy:h[1],rx:rx*.92,ry:ry*.92,class:'ln2'},plug);e.setAttribute('fill','url(#cst)');});
+  const R=rng(3);
+  for(let i=0;i<46;i++){const x=10+R()*(UX-20),y=10+R()*(UY-20),z=T+4+R()*14;const c=P(x,y,z);const rr=5+R()*8;const pts=[];const ph=R()*6;for(let j=0;j<6;j++){const a=ph+j/6*Math.PI*2;const q=rr*(.7+R()*.4);pts.push([c[0]+Math.cos(a)*q,c[1]+Math.sin(a)*q*.7]);}
+    const e=E('path',{d:dq(pts),class:'ln2'},gr);e.setAttribute('fill','url(#cst)');}
+  lbl(gr,P(UX*.7,UY*.2,30),[470,P(UX*.7,UY*.2,30)[1]-20],'порода в ячейках');
+  const tog=v=>{box.classList.toggle('asm',v);btn.setAttribute('aria-pressed',v);btn.textContent=v?'Разобрать':'Собрать';};
+  btn.addEventListener('click',()=>tog(!box.classList.contains('asm')));
+  box.addEventListener('mouseenter',()=>{if(!btn.matches(':focus'))tog(true);});box.addEventListener('mouseleave',()=>{if(!btn.matches(':focus'))tog(false);});
+  if(HAS_GSAP&&!reduceMQ.matches){
+    ScrollTrigger.create({trigger:box,start:'top 70%',once:true,onEnter:()=>{
+      box.classList.add('asm');setTimeout(()=>{if(!box.matches(':hover'))box.classList.remove('asm');},1100);}});
+  }
+})();
+
+/* =============== CALCULATOR =============== */
+(function(){
+  const CL={90:{g:4,f:350000},130:{g:7,f:500000},220:{g:9,f:850000}};
+  const $=id=>document.getElementById(id);
+  const fmt0=new Intl.NumberFormat('ru-RU',{maximumFractionDigits:0}),fmt2=new Intl.NumberFormat('ru-RU',{minimumFractionDigits:2,maximumFractionDigits:2}),fmt1=new Intl.NumberFormat('ru-RU',{minimumFractionDigits:1,maximumFractionDigits:1});
+  const svg=$('fleetSvg');let prevEq=null;
+  const truck=(g,x,y,cls,dash)=>{const t=E('g',{transform:`translate(${x} ${y})`},g);
+    const body='M1,4 L19,4 L17,11 L3,11 Z';const a={class:cls};if(dash)a['stroke-dasharray']='2.5 2';
+    E('path',Object.assign({d:body},a),t);E('path',Object.assign({d:'M19,4 L27,3 M20,6 H26 V11 H20 M2,12.5 H27'},a),t);
+    E('circle',Object.assign({cx:6,cy:15,r:2.6},a),t);E('circle',Object.assign({cx:22,cy:15,r:2.6},a),t);return t;};
+  function draw(n,eq){
+    svg.textContent='';const W=600,cw=32,ch=24,per=Math.floor(W/cw);const shown=Math.min(n,per*4);
+    let i=0;for(;i<shown;i++){truck(svg,(i%per)*cw+2,Math.floor(i/per)*ch+4,'ln2');}
+    let row=Math.ceil(shown/per);if(n>shown){const t=E('text',{x:2,y:row*ch+14,class:'t s'},svg);t.textContent='… всего '+fmt0.format(n);row++;}
+    const y0=row*ch+12;E('path',{d:`M0,${y0-6}H${W}`,class:'ln3'},svg);
+    const full=Math.floor(eq),frac=eq-full,cnt=Math.min(full+(frac>0.005?1:0),per*2);
+    for(let j=0;j<cnt;j++){const x=(j%per)*cw*1.6+2,y=y0+6+Math.floor(j/per)*ch*1.4;const g=E('g',{transform:`translate(${x} ${y}) scale(1.4)`},svg);
+      const f=j<full?1:frac;const id='fc'+j;const cp=E('clipPath',{id},g);E('rect',{x:0,y:0,width:28*f,height:20},cp);
+      const fill=E('g',{'clip-path':`url(#${id})`},g);E('path',{d:'M1,4 L19,4 L17,11 L3,11 Z',class:'acf',opacity:.85},fill);E('rect',{x:20,y:6,width:6,height:5,class:'acf',opacity:.85},fill);
+      truck(g,0,0,'ac',true);
+      if(j===cnt-1){const t=E('text',{x:31,y:12,class:'t s a',style:'font-size:9px'},g);t.textContent='+'+fmt2.format(eq);}
+    }
+    const H=y0+6+Math.ceil(Math.max(cnt,1)/per)*ch*1.4+6;svg.setAttribute('viewBox',`0 0 ${W} ${Math.max(H,60)}`);
+    if(HAS_GSAP&&!reduceMQ.matches&&prevEq!==null){gsap.from(svg.querySelectorAll('.ac'),{opacity:0,duration:.4,stagger:.01});}
+    prevEq=eq;
+  }
+  let cls=130;
+  function calc(){
+    const n=Math.max(0,+$('cN').value||0),tr=Math.max(0,+$('cT').value||0),fu=Math.max(0,+$('cF').value||0),sh=(+$('cS').value||4)/100;
+    const g=CL[cls].g;const t=n*tr*g,eq=n*g/cls,lit=n*fu*sh,co=lit*2.68/1000;
+    $('oT').textContent=fmt0.format(t);$('oE').textContent=fmt2.format(eq);$('oF').textContent=fmt0.format(lit);$('oC').textContent=fmt0.format(co);
+    $('cSo').textContent=fmt1.format(sh*100)+' %';
+    $('fleetCap').textContent='Парк: '+fmt0.format(n)+' × '+cls+' т';$('fleetEq').textContent='+ '+fmt2.format(eq)+' машины без покупки';
+    draw(n,eq);
+  }
+  document.querySelectorAll('input[name=cls]').forEach(r=>r.addEventListener('change',()=>{cls=+r.value;$('cF').value=CL[cls].f;calc();}));
+  ['cN','cT','cF','cS'].forEach(id=>$(id).addEventListener('input',calc));
+  calc();
+})();
+
+/* =============== CHART =============== */
+(function(){
+  const svg=document.getElementById('chartSvg');const L=64,R=600,T=20,B=300;const xm=4,ym=2.2;
+  const X=v=>L+(R-L)*v/xm,Y=v=>B-(B-T)*v/ym;
+  for(let i=0;i<=xm*2;i++){E('path',{d:`M${X(i/2)},${T}V${B}`,class:i%2?'ln3':'ln3'},svg);}
+  for(let j=0;j<=11;j++){E('path',{d:`M${L},${Y(j*.2)}H${R}`,class:'ln3'},svg);}
+  E('path',{d:`M${L},${T-6}V${B}H${R+8}`,class:'ln'},svg);
+  const tx=(x,y,s,c,a)=>{const t=E('text',{x,y,class:c||'t s'},svg);if(a)t.setAttribute('text-anchor',a);t.textContent=s;return t;};
+  for(let i=0;i<=xm;i++)tx(X(i),B+20,String(i),'t s','middle');
+  for(let j=0;j<=4;j++)tx(L-10,Y(j*.5)+4,String(j*.5).replace('.',','),'t s','end');
+  tx(R,B+40,'моточасы, тыс.','t s','end');tx(L,T-10,'износ, мм','t s');
+  const l1=E('path',{d:`M${X(0)},${Y(0)}L${X(4)},${Y(1.4)}`,class:'ln','stroke-width':2},svg);
+  const l2=E('path',{d:`M${X(0)},${Y(0)}L${X(4)},${Y(2.0)}`,class:'ac','stroke-width':2},svg);
+  const t1=tx(X(4)-6,Y(1.4)+22,'СЗФК · 0,35 мм / 1000 мч','t','end');
+  const t2=tx(X(4)-6,Y(2.0)-12,'Нордголд, хвост · 0,5 мм / 1000 мч','t a','end');
+  const m1=E('path',{d:`M${X(1)},${Y(.35)}V${Y(0)}M${X(1)},${Y(.35)}H${L}`,class:'cs','stroke-dasharray':'3 3'},svg);
+  const m2=E('path',{d:`M${X(1)},${Y(.5)}H${L}`,class:'cs','stroke-dasharray':'3 3'},svg);
+  if(HAS_DRAW&&!reduceMQ.matches){
+    const tl=gsap.timeline({scrollTrigger:{trigger:svg,start:'top 78%',once:true}});
+    tl.from([l1,l2],{drawSVG:'0%',duration:1.4,ease:'power2.inOut',stagger:.2}).from([t1,t2,m1,m2],{opacity:0,duration:.4,stagger:.08},'-=.4');
+  }
+})();
+
+/* OPEX bars */
+(function(){const g=document.getElementById('opexBars');for(let i=0;i<12;i++){E('rect',{x:20+i*30,y:62,width:18,height:18,class:'pl hl'},g);}
+  if(HAS_GSAP&&!reduceMQ.matches)gsap.from(g.children,{scaleY:0,transformOrigin:'50% 100%',duration:.5,stagger:.05,ease:'power2.out',scrollTrigger:{trigger:g,start:'top 85%',once:true}});})();
+
+/* request form */
+document.getElementById('reqForm').addEventListener('submit',e=>{e.preventDefault();const f=e.currentTarget;
+  const n=f.querySelector('#fName'),c=f.querySelector('#fCt');let ok=true;[n,c].forEach(i=>{if(!i.value.trim()){ok=false;i.setAttribute('aria-invalid','true');}else i.removeAttribute('aria-invalid');});
+  if(!ok){(n.value.trim()?c:n).focus();return;}
+  f.classList.add('sent');f.querySelector('button[type=submit]').disabled=true;document.getElementById('reqDone').focus&&document.getElementById('reqDone').setAttribute('tabindex','-1');document.getElementById('reqDone').focus();});
+
+window.addEventListener('load',()=>{if(HAS_GSAP)ScrollTrigger.refresh();});
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>{if(HAS_GSAP)ScrollTrigger.refresh();});
+})();
+</script>
