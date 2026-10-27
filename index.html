@@ -13,7 +13,7 @@
 <title>Wearfors · Концепты</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <style>
-/* Layout: one column index sheet, each concept a full-width row with mono meta on the left */
+/* Layout: logo, then the prototype list as full-width rows */
 :root{
   --bg:#0B0E2E; --fg:#EEF1F6; --muted:#9AA3B8; --line:#262B55; --accent:#FDB813;
   --sans:"IBM Plex Sans",system-ui,"Segoe UI",Arial,sans-serif;
@@ -22,36 +22,23 @@
 }
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.55 var(--sans)}
-.wrap{max-width:1120px;margin:0 auto;padding-block:48px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-header{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:28px}
-header img{height:56px;width:auto}
-.meta{font:12px/1.6 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
-h1{font-stretch:85%;font-weight:600;font-size:clamp(34px,6vw,64px);line-height:1.02;letter-spacing:-.02em;margin:40px 0 12px;text-wrap:balance}
-.lead{max-width:62ch;color:var(--muted);margin:0 0 40px}
+.wrap{max-width:960px;margin:0 auto;padding-block:48px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.logo{height:56px;width:auto;display:block;margin-bottom:40px}
 ol{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
-li a{display:grid;grid-template-columns:72px 1fr auto;gap:8px 24px;align-items:baseline;padding:28px 0;border-bottom:1px solid var(--line);color:inherit;text-decoration:none;transition:background .2s}
+li a{display:grid;grid-template-columns:56px 1fr auto;gap:16px;align-items:baseline;padding:32px 0;border-bottom:1px solid var(--line);color:inherit;text-decoration:none;transition:background .2s}
 li a:hover,li a:focus-visible{background:rgba(253,184,19,.06)}
 li a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.k{font:500 14px var(--mono);color:var(--accent)}
-.t{font-stretch:85%;font-weight:600;font-size:clamp(24px,3.4vw,36px);line-height:1.1}
-.d{grid-column:2;color:var(--muted);max-width:68ch;min-width:0}
-.go{font:12px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.k{font:500 14px var(--mono);color:var(--accent);padding-left:8px}
+.t{font-stretch:85%;font-weight:600;font-size:clamp(26px,4vw,40px);line-height:1.1}
+.go{font:12px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding-right:8px}
 li a:hover .go{color:var(--accent)}
-.soon a{pointer-events:none;opacity:.55}
-footer{margin-top:40px;font:12px/1.7 var(--mono);color:var(--muted)}
-@media (max-width:640px){li a{grid-template-columns:44px 1fr}.go{grid-column:2}}
+@media (max-width:520px){li a{grid-template-columns:36px 1fr}.go{display:none}}
 </style>
 <div class="wrap">
-  <header>
-    <img src="img/logo_white.webp" alt="Wearfors">
-    <div class="meta">Редизайн wearfors.com · концепты главной · 27.10.2026</div>
-  </header>
-  <h1>Три направления редизайна</h1>
-  <p class="lead">Интерактивные прототипы главной страницы. Контент и цифры взяты с действующего сайта, калькулятор экономики парка работает в каждом концепте. Лучше смотреть на компьютере в Chrome, затем проверить на телефоне.</p>
+  <img class="logo" src="img/logo_white.webp" alt="Wearfors">
   <ol>
-    <li><a href="a-passport.html"><span class="k">A</span><span class="t">Технический паспорт</span><span class="go">Открыть →</span><span class="d">Сайт как чертёж и паспорт изделия: листы со штампами, пробивка перфорации по скроллу, разрез А–А, протокол эксплуатации. Светлая «бумага» и тёмная «синька».</span></a></li>
-    <li><a href="b-telemetry.html"><span class="k">B</span><span class="t">Телеметрия</span><span class="go">Открыть →</span><span class="d">Тёмный прибор контроля: 3D-пластина на WebGL, порода оседает в ячейки, монитор износа по моточасам, калькулятор-табло, часы объектов клиентов.</span></a></li>
-    <li><a href="d-blueprint.html"><span class="k">D</span><span class="t">Чертёж в движении</span><span class="go">Открыть →</span><span class="d">Продукт создаётся на глазах: аксонометрия кузова, замер, раскрой, пробивка, монтаж и самофутеровка — анимированные чертежи по скроллу.</span></a></li>
+    <li><a href="a-passport.html"><span class="k">A</span><span class="t">Технический паспорт</span><span class="go">Открыть →</span></a></li>
+    <li><a href="b-telemetry.html"><span class="k">B</span><span class="t">Телеметрия</span><span class="go">Открыть →</span></a></li>
+    <li><a href="d-blueprint.html"><span class="k">D</span><span class="t">Чертёж в движении</span><span class="go">Открыть →</span></a></li>
   </ol>
-  <footer>Прототипы для обсуждения, не опубликованная версия сайта. Расчёты в калькуляторе предварительные.</footer>
 </div>
